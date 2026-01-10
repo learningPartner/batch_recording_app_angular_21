@@ -1,0 +1,26 @@
+<div class="parent">
+    <div class="login-card">
+    <div class="brand-logo">Welcome</div>
+    <p class="text-center text-muted mb-4">Please enter your details</p>
+
+    <form>
+        <div class="mb-3">
+            <label for="email" class="form-label small fw-bold">Email Address</label>
+            <input type="email" [(ngModel)]="loginObj.email" name="email" class="form-control" id="email" placeholder="name@example.com" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="password" class="form-label small fw-bold">Password</label>
+            <input type="password" [(ngModel)]="loginObj.password" name="password" class="form-control" id="password" placeholder="••••••••" required>
+        </div>
+
+        <div class="d-grid">
+            <button type="button" (click)="onLogin()" class="btn btn-login">Sign In</button>
+        </div>
+
+        <div class="mt-4 text-center">
+            <a href="#" class="text-decoration-none small text-muted">Forgot password?</a>
+        </div>
+    </form>
+</div>
+</div>

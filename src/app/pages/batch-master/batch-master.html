@@ -1,0 +1,117 @@
+<div class="container-fluid py-5 main-container">
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="card form-card">
+                <div class="card-body p-4">
+                    <div class="section-header">
+                        <i class="fas fa-plus-circle"></i>
+                        <h4>Add New Batch</h4>
+                    </div>
+
+                    <form>
+                        <div class="mb-3">
+                            <label for="batchName" class="form-label">
+                                <i class="fas fa-tag me-2"></i>Batch Name
+                            </label>
+                            <input type="text" [(ngModel)]="newBatchObj.batchName" name="batchName" class="form-control"
+                                id="batchName" placeholder="Enter batch name">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">
+                                <i class="fas fa-align-left me-2"></i>Description
+                            </label>
+                            <textarea [(ngModel)]="newBatchObj.description" name="description" class="form-control"
+                                id="description" rows="3" placeholder="Enter batch description"></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="startDate" class="form-label">
+                                    <i class="fas fa-calendar-plus me-2"></i>Start Date
+                                </label>
+                                <input type="datetime-local" [(ngModel)]="newBatchObj.startDate" name="startDate"
+                                    class="form-control" id="startDate">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="endDate" class="form-label">
+                                    <i class="fas fa-calendar-check me-2"></i>End Date
+                                </label>
+                                <input type="datetime-local" [(ngModel)]="newBatchObj.endDate" name="endDate"
+                                    class="form-control" id="endDate">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check form-switch">
+                                <input [(ngModel)]="newBatchObj.isActive" class="form-check-input" name="isActive"
+                                    type="checkbox" id="isActive" checked>
+                                <label class="form-check-label fw-semibold" for="isActive">
+                                    <i class="fas fa-toggle-on me-2"></i>Active Status
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="button" (click)="onSaveBatch()" class="btn btn-custom btn-success-custom">
+                                <i class="fas fa-save me-2"></i>Create Batch
+                            </button>
+                            <button type="button" class="btn btn-custom btn-secondary-custom">
+                                <i class="fas fa-redo me-2"></i>Reset Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card table-card">
+                <div class="card-body p-4">
+                    <div class="section-header">
+                        <i class="fas fa-list"></i>
+                        <h4>Batch List</h4>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (item of batchList(); track $index) {
+                                <tr>
+                                    <td><strong>{{$index+1}}</strong></td>
+                                    <td>{{item.batchName}} </td>
+                                    <td>{{item.startDate |date:'dd-MM-yy'}} </td>
+                                    <td>{{item.endDate |date:'dd-MM-yy'}} </td>
+                                    <td><span class="badge-status " [ngClass]="item.isActive ?'badge-active':'badge-inactive'"><i
+                                                class="fas fa-check-circle me-1"></i>Active</span></td>
+                                    <td>
+                                        <button class="action-btn btn-warning-custom">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn btn-danger-custom">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,307 @@
+<div class="container-fluid py-5 main-container">
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="card form-card">
+                <div class="card-body p-4">
+                    <div class="section-header">
+                        <i class="fas fa-plus-circle"></i>
+                        <h4>Add New Session</h4>
+                    </div>
+
+                    <form>
+                         
+                        <div class="mb-3">
+                            <label for="batchId" class="form-label">
+                                <i class="fas fa-layer-group me-2"></i>Select Batch
+                            </label>
+                            <select class="form-select" id="batchId">
+                                <option value="">Select a batch</option>
+                                @for (item of batchList$| async; track $index) {
+                                      <option [value]="item.batchId">{{item.batchName}}</option> 
+                                }
+                              
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="topicName" class="form-label">
+                                <i class="fas fa-book me-2"></i>Topic Name
+                            </label>
+                            <input type="text" [field]="sessionForm.topicName" class="form-control" id="topicName" placeholder="Enter topic name">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="topicDescription" class="form-label">
+                                <i class="fas fa-align-left me-2"></i>Topic Description
+                            </label>
+                            <textarea [field]="sessionForm.topicDescription" class="form-control" id="topicDescription" rows="2"
+                                placeholder="Enter topic description"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="youtubeVideoId" class="form-label">
+                                <i class="fab fa-youtube me-2"></i>YouTube Video ID
+                            </label>
+                            <input type="text" [field]="sessionForm.youtubeVideoId" class="form-control" id="youtubeVideoId" placeholder="e.g., dQw4w9WgXcQ">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="durationInMinutes" class="form-label">
+                                <i class="fas fa-hourglass-half me-2"></i>Duration (Minutes)
+                            </label>
+                            <input type="number" [field]="sessionForm.durationInMinutes" class="form-control" id="durationInMinutes"
+                                placeholder="Enter duration">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="sessionDate" class="form-label">
+                                <i class="fas fa-calendar me-2"></i>Session Date
+                            </label>
+                            <input type="date" [field]="sessionForm.sessionDate" class="form-control" id="sessionDate">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="displayOrder" class="form-label">
+                                <i class="fas fa-list-ol me-2"></i>Display Order
+                            </label>
+                            <input type="number" [field]="sessionForm.displayOrder" class="form-control" id="displayOrder"
+                                placeholder="Enter display order">
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="button" (click)="onSaveSession()" class="btn btn-custom btn-success-custom">
+                                <i class="fas fa-save me-2"></i>Create Session
+                            </button>
+                            <button type="button" class="btn btn-custom btn-secondary-custom">
+                                <i class="fas fa-redo me-2"></i>Reset Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card content-card">
+                <div class="card-body p-4">
+                    <div class="section-header">
+                        <i class="fas fa-list"></i>
+                        <h4>Sessions List</h4>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="session-card">
+                                <div class="session-card-header">
+                                    <div class="topic-title">Introduction to Web Development</div>
+                                    <span class="batch-info">Spring 2025 - Batch 1</span>
+                                </div>
+                                <div class="session-card-body">
+                                    <p class="description-text">Learn the fundamentals of web development including
+                                        HTML, CSS, and JavaScript basics.</p>
+                                    <div class="session-meta">
+                                        <div class="meta-item">
+                                            <i class="fas fa-hourglass-half"></i>
+                                            <span>45 Minutes</span>
+                                        </div>
+                                        <div class="meta-item">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <span>2025-01-15</span>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="youtube-link">
+                                        <i class="fab fa-youtube"></i>
+                                        Watch Video
+                                    </a>
+                                </div>
+                                <div class="session-card-footer">
+                                    <button class="action-btn btn-warning-custom">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn btn-danger-custom">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="session-card">
+                                <div class="session-card-header">
+                                    <div class="topic-title">Advanced JavaScript Concepts</div>
+                                    <span class="batch-info">Spring 2025 - Batch 1</span>
+                                </div>
+                                <div class="session-card-body">
+                                    <p class="description-text">Deep dive into closures, prototypes, and asynchronous
+                                        programming in JavaScript.</p>
+                                    <div class="session-meta">
+                                        <div class="meta-item">
+                                            <i class="fas fa-hourglass-half"></i>
+                                            <span>60 Minutes</span>
+                                        </div>
+                                        <div class="meta-item">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <span>2025-01-20</span>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="youtube-link">
+                                        <i class="fab fa-youtube"></i>
+                                        Watch Video
+                                    </a>
+                                </div>
+                                <div class="session-card-footer">
+                                    <button class="action-btn btn-warning-custom">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn btn-danger-custom">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="session-card">
+                                <div class="session-card-header">
+                                    <div class="topic-title">React Fundamentals</div>
+                                    <span class="batch-info">Summer 2025 - Batch 2</span>
+                                </div>
+                                <div class="session-card-body">
+                                    <p class="description-text">Master React components, hooks, and state management for
+                                        building modern web applications.</p>
+                                    <div class="session-meta">
+                                        <div class="meta-item">
+                                            <i class="fas fa-hourglass-half"></i>
+                                            <span>90 Minutes</span>
+                                        </div>
+                                        <div class="meta-item">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <span>2025-06-25</span>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="youtube-link">
+                                        <i class="fab fa-youtube"></i>
+                                        Watch Video
+                                    </a>
+                                </div>
+                                <div class="session-card-footer">
+                                    <button class="action-btn btn-warning-custom">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn btn-danger-custom">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="session-card">
+                                <div class="session-card-header">
+                                    <div class="topic-title">Database Design & SQL</div>
+                                    <span class="batch-info">Winter 2025 - Batch 4</span>
+                                </div>
+                                <div class="session-card-body">
+                                    <p class="description-text">Learn database design principles and write efficient SQL
+                                        queries for data management.</p>
+                                    <div class="session-meta">
+                                        <div class="meta-item">
+                                            <i class="fas fa-hourglass-half"></i>
+                                            <span>75 Minutes</span>
+                                        </div>
+                                        <div class="meta-item">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <span>2025-12-15</span>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="youtube-link">
+                                        <i class="fab fa-youtube"></i>
+                                        Watch Video
+                                    </a>
+                                </div>
+                                <div class="session-card-footer">
+                                    <button class="action-btn btn-warning-custom">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn btn-danger-custom">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="session-card">
+                                <div class="session-card-header">
+                                    <div class="topic-title">Web Security Best Practices</div>
+                                    <span class="batch-info">Fall 2024 - Batch 3</span>
+                                </div>
+                                <div class="session-card-body">
+                                    <p class="description-text">Explore essential security practices to protect web
+                                        applications from common vulnerabilities.</p>
+                                    <div class="session-meta">
+                                        <div class="meta-item">
+                                            <i class="fas fa-hourglass-half"></i>
+                                            <span>50 Minutes</span>
+                                        </div>
+                                        <div class="meta-item">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <span>2024-09-10</span>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="youtube-link">
+                                        <i class="fab fa-youtube"></i>
+                                        Watch Video
+                                    </a>
+                                </div>
+                                <div class="session-card-footer">
+                                    <button class="action-btn btn-warning-custom">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn btn-danger-custom">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="session-card">
+                                <div class="session-card-header">
+                                    <div class="topic-title">API Development with Node.js</div>
+                                    <span class="batch-info">Spring 2025 - Batch 1</span>
+                                </div>
+                                <div class="session-card-body">
+                                    <p class="description-text">Build scalable REST APIs using Node.js and Express with
+                                        proper error handling and validation.</p>
+                                    <div class="session-meta">
+                                        <div class="meta-item">
+                                            <i class="fas fa-hourglass-half"></i>
+                                            <span>80 Minutes</span>
+                                        </div>
+                                        <div class="meta-item">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <span>2025-02-01</span>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="youtube-link">
+                                        <i class="fab fa-youtube"></i>
+                                        Watch Video
+                                    </a>
+                                </div>
+                                <div class="session-card-footer">
+                                    <button class="action-btn btn-warning-custom">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn btn-danger-custom">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

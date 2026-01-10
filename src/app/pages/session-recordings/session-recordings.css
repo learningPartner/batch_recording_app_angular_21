@@ -1,0 +1,137 @@
+ .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-card {
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        .content-card {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .session-card {
+            animation: slideUp 0.6s ease-out;
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .session-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .session-card-header {
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 16px 16px 0 0;
+        }
+
+        .session-card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .session-card-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+           .topic-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .batch-info {
+            display: inline-block;
+            padding: 0.35rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        .session-meta {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+
+        .meta-item i {
+            color: #0ea5e9;
+            font-weight: 600;
+        }
+
+        .description-text {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            flex-grow: 1;
+            margin: 1rem 0;
+        }
+
+        .youtube-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ef4444;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .youtube-link:hover {
+            color: #dc2626;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.8rem;
+            }
+
+            .btn-custom {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .session-card {
+                margin-bottom: 1rem;
+            }
+        }

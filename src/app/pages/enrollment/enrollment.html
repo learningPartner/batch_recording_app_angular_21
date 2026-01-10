@@ -1,0 +1,173 @@
+<div class="container-fluid py-5 main-container"> 
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <div class="card form-card">
+                <div class="card-body p-4">
+                    <div class="section-header">
+                        <i class="fas fa-plus-circle"></i>
+                        <h4>Add New Enrollment -- {{currentDate()|date:'hh:mm:ss'}} => {{couter$ |async}}</h4>
+                    </div>
+
+                    <form [formGroup]="enrollmentForm"> 
+                        <div class="mb-3">
+                            <label for="batchId" class="form-label">
+                                <i class="fas fa-layer-group me-2"></i>Select Batch
+                            </label>
+                            <select class="form-select" formControlName="batchId">
+                                <option value="">Select a batch</option>
+                                @for (item of batchData(); track $index) {
+                                      <option [value]="item.batchId">{{item.batchName}}</option> 
+                                } 
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="candidateId" class="form-label">
+                                <i class="fas fa-user me-2"></i>Select Candidate
+                            </label>
+                            <select class="form-select" formControlName="candidateId">
+                                <option value="">Select a candidate</option>
+                                @for (item of candidateList$|async; track $index) {
+                                     <option [value]="item.candidateId">{{item.fullName}}</option>
+                                } 
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="enrollmentDate" class="form-label">
+                                <i class="fas fa-calendar me-2"></i>Enrollment Date
+                            </label>
+                            <input type="date" formControlName="enrollmentDate" class="form-control" id="enrollmentDate">
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" formControlName="isActive" type="checkbox" id="isActive" checked>
+                                <label class="form-check-label fw-semibold" for="isActive">
+                                    <i class="fas fa-toggle-on me-2"></i>Active Enrollment
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="button" (click)="onSaveEnrollment()" class="btn btn-custom btn-success-custom">
+                                <i class="fas fa-save me-2"></i>Create Enrollment
+                            </button>
+                            <button type="button" class="btn btn-custom btn-secondary-custom">
+                                <i class="fas fa-redo me-2"></i>Reset Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="card table-card">
+                <div class="card-body p-4">
+                    <div class="section-header">
+                        <i class="fas fa-list"></i>
+                        <h4>Enrollments List</h4>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Batch</th>
+                                    <th>Candidate</th>
+                                    <th>Enrollment Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>1</strong></td>
+                                    <td><span class="batch-badge">Spring 2025</span></td>
+                                    <td><span class="candidate-name">John Anderson</span></td>
+                                    <td>2025-01-15</td>
+                                    <td><span class="badge-status badge-active"><i
+                                                class="fas fa-check-circle me-1"></i>Active</span></td>
+                                    <td>
+                                        <button class="action-btn btn-warning-custom">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn btn-danger-custom">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2</strong></td>
+                                    <td><span class="batch-badge">Spring 2025</span></td>
+                                    <td><span class="candidate-name">Sarah Martinez</span></td>
+                                    <td>2025-01-16</td>
+                                    <td><span class="badge-status badge-active"><i
+                                                class="fas fa-check-circle me-1"></i>Active</span></td>
+                                    <td>
+                                        <button class="action-btn btn-warning-custom">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn btn-danger-custom">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3</strong></td>
+                                    <td><span class="batch-badge">Summer 2025</span></td>
+                                    <td><span class="candidate-name">Michael Chen</span></td>
+                                    <td>2025-06-20</td>
+                                    <td><span class="badge-status badge-active"><i
+                                                class="fas fa-check-circle me-1"></i>Active</span></td>
+                                    <td>
+                                        <button class="action-btn btn-warning-custom">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn btn-danger-custom">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>4</strong></td>
+                                    <td><span class="batch-badge">Winter 2025</span></td>
+                                    <td><span class="candidate-name">Emily Rodriguez</span></td>
+                                    <td>2024-12-10</td>
+                                    <td><span class="badge-status badge-inactive"><i
+                                                class="fas fa-times-circle me-1"></i>Inactive</span></td>
+                                    <td>
+                                        <button class="action-btn btn-warning-custom">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn btn-danger-custom">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>5</strong></td>
+                                    <td><span class="batch-badge">Fall 2024</span></td>
+                                    <td><span class="candidate-name">David Thompson</span></td>
+                                    <td>2024-09-05</td>
+                                    <td><span class="badge-status badge-active"><i
+                                                class="fas fa-check-circle me-1"></i>Active</span></td>
+                                    <td>
+                                        <button class="action-btn btn-warning-custom">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn btn-danger-custom">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
