@@ -100,4 +100,17 @@ export class Enrollment implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptipon.unsubscribe();
   }
+
+  onDelete(enrollmentId: number) {
+    if (confirm("Are you sure to delete this enrollment?")) {
+      this.enrollmentSrv.deleteEnrollment(enrollmentId).subscribe({
+        next: (res: IAPIRepsone) => {
+          if (res.result) {
+            alert(res.message);
+            this.getAllEnrollments();
+          }
+        }
+      })
+    }
+  }
 }

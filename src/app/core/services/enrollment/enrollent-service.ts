@@ -21,4 +21,11 @@ export class EnrollentService {
     );
   }
 
+  deleteEnrollment(enrollmentId: number): Observable<IAPIRepsone> { 
+    const url = `${environment.API_URL}${ApiMethodConstant.ENROLLMENTS}/${enrollmentId}`;
+    return this.http.delete<IAPIRepsone>(url).pipe(
+      delay(500)
+    );
+  }
+
 }
