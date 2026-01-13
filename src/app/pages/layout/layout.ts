@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterOutlet, RouterLinkWithHref, RouterLink } from '@angular/router';
+import { Router, RouterOutlet, RouterLinkWithHref, RouterLink, RouterLinkActive } from '@angular/router';
 import { GlobalConstant } from '../../core/constant/Global.constant';
 import { BatchService } from '../../core/services/batch/batch-service';
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './layout.html',
   styleUrl: './layout.css',
 })
