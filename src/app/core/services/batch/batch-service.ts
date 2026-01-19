@@ -27,4 +27,12 @@ export class BatchService {
   getAllBatches(): Observable<IAPIRepsone> {
     return this.http.get<IAPIRepsone>(environment.API_URL + ApiMethodConstant.BATCH);
   }
+
+  updateBatch(id: number, obj: BatchModel): Observable<IAPIRepsone> {
+    return this.http.put<IAPIRepsone>(environment.API_URL + ApiMethodConstant.BATCH + '/' + id, obj);
+  }
+  
+  deleteBatch(id: number): Observable<IAPIRepsone> {
+    return this.http.delete<IAPIRepsone>(environment.API_URL + ApiMethodConstant.BATCH + '/' + id);
+  }
 }

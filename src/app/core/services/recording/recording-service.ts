@@ -4,7 +4,7 @@ import { IAPIRepsone } from '../../model/interfaces/Common.Model';
 import { CandidateModel } from '../../model/classes/Candidate.Model';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { ApiMethodConstant } from '../../constant/Global.constant';
+import { ApiMethodConstant, Controllers, METHOD_NAME } from '../../constant/Global.constant';
 import { ISession } from '../../model/interfaces/Session.Model';
 
 @Injectable({
@@ -22,5 +22,9 @@ export class RecordingService {
 
   getAllSessionRecording(): Observable<IAPIRepsone> {
     return this.http.get<IAPIRepsone>(environment.API_URL + ApiMethodConstant.BATCH);
+  }
+
+  getAllSessionRecordingByBatchId(batchId: number): Observable<IAPIRepsone> {
+    return this.http.get<IAPIRepsone>(environment.API_URL + Controllers.SESSIONS +'/'+ METHOD_NAME.SESSION.GET_SESSION_BY_BATCH + '/'+batchId);
   }
 }

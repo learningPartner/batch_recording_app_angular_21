@@ -83,86 +83,29 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><strong>1</strong></td>
-                                    <td><span class="batch-badge">Spring 2025</span></td>
-                                    <td><span class="candidate-name">John Anderson</span></td>
-                                    <td>2025-01-15</td>
-                                    <td><span class="badge-status badge-active"><i
-                                                class="fas fa-check-circle me-1"></i>Active</span></td>
-                                    <td>
-                                        <button class="action-btn btn-warning-custom">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="action-btn btn-danger-custom">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><strong>2</strong></td>
-                                    <td><span class="batch-badge">Spring 2025</span></td>
-                                    <td><span class="candidate-name">Sarah Martinez</span></td>
-                                    <td>2025-01-16</td>
-                                    <td><span class="badge-status badge-active"><i
-                                                class="fas fa-check-circle me-1"></i>Active</span></td>
-                                    <td>
-                                        <button class="action-btn btn-warning-custom">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="action-btn btn-danger-custom">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><strong>3</strong></td>
-                                    <td><span class="batch-badge">Summer 2025</span></td>
-                                    <td><span class="candidate-name">Michael Chen</span></td>
-                                    <td>2025-06-20</td>
-                                    <td><span class="badge-status badge-active"><i
-                                                class="fas fa-check-circle me-1"></i>Active</span></td>
-                                    <td>
-                                        <button class="action-btn btn-warning-custom">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="action-btn btn-danger-custom">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><strong>4</strong></td>
-                                    <td><span class="batch-badge">Winter 2025</span></td>
-                                    <td><span class="candidate-name">Emily Rodriguez</span></td>
-                                    <td>2024-12-10</td>
-                                    <td><span class="badge-status badge-inactive"><i
-                                                class="fas fa-times-circle me-1"></i>Inactive</span></td>
-                                    <td>
-                                        <button class="action-btn btn-warning-custom">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="action-btn btn-danger-custom">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><strong>5</strong></td>
-                                    <td><span class="batch-badge">Fall 2024</span></td>
-                                    <td><span class="candidate-name">David Thompson</span></td>
-                                    <td>2024-09-05</td>
-                                    <td><span class="badge-status badge-active"><i
-                                                class="fas fa-check-circle me-1"></i>Active</span></td>
-                                    <td>
-                                        <button class="action-btn btn-warning-custom">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="action-btn btn-danger-custom">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                                @for (item of enrollmentList(); track item.enrollmentId) {
+                                    <tr>
+                                        <td><strong>{{item.enrollmentId}}</strong></td>
+                                        <td><span class="batch-badge">{{item.batchName}}</span></td>
+                                        <td><span class="candidate-name">{{item.fullName}}</span></td>
+                                        <td>{{item.enrollmentDate | date:'yyyy-MM-dd'}}</td>
+                                        <td>
+                                            @if (item.isActive) {
+                                                <span class="badge-status badge-active"><i class="fas fa-check-circle me-1"></i>Active</span>
+                                            } @else {
+                                                <span class="badge-status badge-inactive"><i class="fas fa-times-circle me-1"></i>Inactive</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <button class="action-btn btn-warning-custom">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button type="button" (click)="onDeleteEnrollment(item.enrollmentId)" class="action-btn btn-danger-custom">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>

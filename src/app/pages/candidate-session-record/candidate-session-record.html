@@ -1,0 +1,123 @@
+<div class="container py-5 main-container">
+    <!-- Batches View -->
+    <div id="batchesView" class="view active">
+        <div class="text-center mb-5">
+            <h1 class="header-title">My Enrolled Batches</h1>
+            @for (item of enrollments(); track $index) {
+                <button class="btn btn-success" (click)="getSessionRecordings(item.batchId)">{{item.batchName}}</button>
+            }
+        </div>
+
+        <div class="row g-4">
+            @for (item of SessionRecordings(); track $index) {
+                 <div class="col-lg-6">
+                <div class="batch-card" >
+                    <div class="batch-card-header">
+                        <div class="batch-name">{{item.topicName}}</div>
+                        <div class="batch-code">{{item.sessionDate}}</div>
+                    </div>
+                    <div class="batch-card-body">
+                        <p class="batch-description">{{item.topicDescription}}</p> 
+                        <button class="btn btn-custom btn-primary-custom mt-3">
+                            <i class="fas fa-play me-2"></i>View Recordings
+                        </button>
+                    </div>
+                </div>
+            </div>
+            }
+           
+
+          
+        </div>
+    </div>
+
+    <!-- Sessions View -->
+    <div id="sessionsView" class="view">
+        <button class="back-button" onclick="backToBatches()">
+            <i class="fas fa-arrow-left"></i>Back to Batches
+        </button>
+
+        <div class="text-center mb-5">
+            <h1 class="header-title" id="batchTitle">Spring 2025 - Web Development</h1>
+            <p class="text-white fs-5 mt-3">Session Recordings</p>
+        </div>
+
+        <div class="row g-4" id="sessionsContainer">
+            <div class="col-md-6 col-lg-4">
+                <div class="session-card">
+                    <div class="session-card-header">
+                        <div class="topic-title">title</div>
+                    </div>
+                    <div class="session-card-body">
+                        <p class="description-text">description</p>
+                        <div class="session-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-hourglass-half"></i>
+                                <span>duration</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>date</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-card-footer">
+                        <button class="btn-watch">
+                            <i class="fab fa-youtube me-2"></i>Watch Video
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="session-card">
+                    <div class="session-card-header">
+                        <div class="topic-title">title</div>
+                    </div>
+                    <div class="session-card-body">
+                        <p class="description-text">description</p>
+                        <div class="session-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-hourglass-half"></i>
+                                <span>duration</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>date</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-card-footer">
+                        <button class="btn-watch">
+                            <i class="fab fa-youtube me-2"></i>Watch Video
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="session-card">
+                    <div class="session-card-header">
+                        <div class="topic-title">title</div>
+                    </div>
+                    <div class="session-card-body">
+                        <p class="description-text">description</p>
+                        <div class="session-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-hourglass-half"></i>
+                                <span>duration</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>date</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="session-card-footer">
+                        <button class="btn-watch">
+                            <i class="fab fa-youtube me-2"></i>Watch Video
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

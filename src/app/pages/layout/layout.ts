@@ -2,24 +2,26 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet, RouterLinkWithHref, RouterLink } from '@angular/router';
 import { GlobalConstant } from '../../core/constant/Global.constant';
 import { BatchService } from '../../core/services/batch/batch-service';
+import { Roles } from '../../core/enum/role.enum';
+import { User } from '../../core/services/user/user';
+import { CandidateModel } from '../../core/model/classes/Candidate.Model';
+import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink,AsyncPipe,NgIf],
   templateUrl: './layout.html',
   styleUrl: './layout.css',
 })
 export class Layout {
-
-  loggedUserData: any;
+ 
   router = inject(Router)
-  batchSr  = inject(BatchService)
+  batchSr  = inject(BatchService);
+  roleEnum =  Roles;
+  userSrv =  inject(User); 
 
-  constructor() {
-    const localData =  localStorage.getItem(GlobalConstant.LOCAL_KEY_LOGIN);
-    if(localData != null) {
-      this.loggedUserData =  JSON.parse(localData);
-    }
+  constructor() {  
+    debugger;
   }
 
   onLogOff() {

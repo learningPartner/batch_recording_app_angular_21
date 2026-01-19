@@ -17,6 +17,8 @@ export class BatchMaster  implements OnInit, OnDestroy{
   newBatchObj: BatchModel = new BatchModel();
   batchSrv = inject(BatchService);
   batchList = signal<BatchModel[]>([]);
+  isEditMode = signal<boolean>(false);
+  editingBatchId = signal<number | null>(null);
 
   subscription: Subscription = new Subscription();
 
@@ -42,20 +44,73 @@ export class BatchMaster  implements OnInit, OnDestroy{
 
   onSaveBatch() {
     debugger;
-    this.batchSrv.createNewBatch(this.newBatchObj).subscribe({
-      next: (result: IAPIRepsone) => {
-        debugger;
-        if (result.result) {
-          alert("Batch Created Succefully");
-          this.loadBatches()
-        } else {
-          alert(result.message)
+    if (this.isEditMode()) {
+      this.batchSrv.updateBatch(this.editingBatchId()!, this.newBatchObj).subscribe({
+        next: (result: IAPIRepsone) => {
+          debugger;
+          if (result.result) {
+            alert("Batch Updated Successfully");
+            this.resetForm();
+            this.loadBatches();
+          } else {
+            alert(result.message);
+          }
+        },
+        error: (error) => {
+          alert("Api Error " + error.error.message);
         }
-      },
-      error: (error) => {
-        alert("Api Error " + error.error.message)
-      }
-    })
+      });
+    } else {
+      this.batchSrv.createNewBatch(this.newBatchObj).subscribe({
+        next: (result: IAPIRepsone) => {
+          debugger;
+          if (result.result) {
+            alert("Batch Created Successfully");
+            this.resetForm();
+            this.loadBatches();
+          } else {
+            alert(result.message);
+          }
+        },
+        error: (error) => {
+          alert("Api Error " + error.error.message);
+        }
+      });
+    }
+  }
+
+  onEditBatch(batch: BatchModel, id: number) {
+    debugger;
+    this.newBatchObj = { ...batch };
+    this.isEditMode.set(true);
+    this.editingBatchId.set(id);
+    window.scrollTo(0, 0);
+  }
+
+  onDeleteBatch(id: number) {
+    debugger;
+    if (confirm("Are you sure you want to delete this batch?")) {
+      this.batchSrv.deleteBatch(id).subscribe({
+        next: (result: IAPIRepsone) => {
+          debugger;
+          if (result.result) {
+            alert("Batch Deleted Successfully");
+            this.loadBatches();
+          } else {
+            alert(result.message);
+          }
+        },
+        error: (error) => {
+          alert("Api Error " + error.error.message);
+        }
+      });
+    }
+  }
+
+  resetForm() {
+    this.newBatchObj = new BatchModel();
+    this.isEditMode.set(false);
+    this.editingBatchId.set(null);
   }
 
   ngOnDestroy(): void {

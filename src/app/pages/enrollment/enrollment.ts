@@ -7,54 +7,60 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 import { interval, map, Observable, Subscription } from 'rxjs';
 import { CandidateModel } from '../../core/model/classes/Candidate.Model';
 import { CandidateService } from '../../core/services/candidate/candidate-service';
+import { EnrollentService } from '../../core/services/enrollment/enrollent-service';
+
+interface EnrollmentModel {
+  enrollmentId: number;
+  batchId: number;
+  batchName: string;
+  candidateId: number;
+  fullName: string;
+  enrollmentDate: string;
+  isActive: boolean;
+}
 
 @Component({
   selector: 'app-enrollment',
-  imports: [ReactiveFormsModule, AsyncPipe,DatePipe],
+  imports: [ReactiveFormsModule, AsyncPipe, DatePipe],
   templateUrl: './enrollment.html',
   styleUrl: './enrollment.css',
 })
-export class Enrollment  implements OnInit,OnDestroy{
+export class Enrollment implements OnInit, OnDestroy {
 
-
-  enrollmentForm: FormGroup= new FormGroup({});
+  enrollmentForm: FormGroup = new FormGroup({});
 
   foromBuilder = inject(FormBuilder);
   batchService = inject(BatchService);
   candidateSrv = inject(CandidateService);
+  enrollmentSrv = inject(EnrollentService);
   
   batchData = signal<BatchModel[]>([]);
+  enrollmentList = signal<EnrollmentModel[]>([]);
 
   candidateList$: Observable<CandidateModel[]> = new Observable<CandidateModel[]>;
 
   subscriptipon: Subscription = new Subscription();
 
-  currentDate  = signal<any>(new Date());
+  currentDate = signal<any>(new Date());
 
-  timerInterval$  = interval(1000);
-  
-  //currenTime: Observable<any> = new Observable<any>;
+  timerInterval$ = interval(1000);
 
   couter$ = interval(2000);
-
-  //counterValue = signal<number>(0);
 
   constructor() {
     this.initiaizeForm();
 
-    // this.couter$.subscribe(res=>{
-    //   this.counterValue.set(res);
-    // })
-    this.timerInterval$.subscribe(res=> { 
+    this.timerInterval$.subscribe(res => { 
       this.currentDate.set(new Date())
     })
-    this.candidateList$  = this.candidateSrv.getAllCandidates().pipe(
-      map((res:IAPIRepsone)=> res.data)
+    this.candidateList$ = this.candidateSrv.getAllCandidates().pipe(
+      map((res: IAPIRepsone) => res.data)
     );
   }
 
   ngOnInit(): void {
     this.getAllBatches();
+    this.getAllEnrollments();
   }
 
   initiaizeForm() {
@@ -68,10 +74,19 @@ export class Enrollment  implements OnInit,OnDestroy{
   }
 
   getAllBatches() {
-   this.batchService.getAllBatches().subscribe({
-      next:(res:IAPIRepsone)=>{
+    this.batchService.getAllBatches().subscribe({
+      next: (res: IAPIRepsone) => {
         debugger;
         this.batchData.set(res.data);
+      }
+    })
+  }
+
+  getAllEnrollments() {
+    this.enrollmentSrv.getAllEnrollments().subscribe({
+      next: (res: IAPIRepsone) => {
+        debugger;
+        this.enrollmentList.set(res.data);
       }
     })
   }
@@ -79,6 +94,24 @@ export class Enrollment  implements OnInit,OnDestroy{
   onSaveEnrollment() {
     const formValue = this.enrollmentForm.value;
     debugger;
+  }
+
+  onDeleteEnrollment(enrollmentId: number) {
+    const confirmDelete = confirm('Are you sure you want to delete this enrollment? This action cannot be undone.');
+    
+    if (confirmDelete) {
+      this.enrollmentSrv.deleteEnrollment(enrollmentId).subscribe({
+        next: (res: IAPIRepsone) => {
+          debugger;
+          // Refresh the enrollment list after successful deletion
+          this.getAllEnrollments();
+        },
+        error: (error) => {
+          debugger;
+          console.error('Error deleting enrollment:', error);
+        }
+      })
+    }
   }
 
   ngOnDestroy(): void {
