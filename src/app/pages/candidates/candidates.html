@@ -1,128 +1,146 @@
- 
-    <div class="container-fluid py-5 main-container"> 
-        <div class="row g-4">
-            <div class="col-lg-4">
-                <div class="card form-card">
-                    <div class="card-body p-4">
-                        <div class="section-header">
-                            <i class="fas fa-user-plus"></i>
-                            <h4>Add New Candidate</h4>
+<div class="container-fluid py-5 main-container">
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="card form-card">
+                <div class="card-body p-4">
+                    <div class="section-header">
+                        <i class="fas fa-user-plus"></i>
+                        <h4>Add New Candidate</h4>
+                    </div>
+
+                    <form [formGroup]="candidateForm" (ngSubmit)="onSaveCandidate()">
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">
+                                <i class="fas fa-user me-2"></i>Full Name
+                            </label>
+                            <input type="text" formControlName="fullName" class="form-control" id="fullName"
+                                placeholder="Enter full name">
                         </div>
 
-                        <form [formGroup]="candidateForm" (ngSubmit)="onSaveCandidate()"> 
-                            <div class="mb-3">
-                                <label for="fullName" class="form-label">
-                                    <i class="fas fa-user me-2"></i>Full Name
+                        <div class="mb-3">
+                            <label for="email" class="form-label">
+                                <i class="fas fa-envelope me-2"></i>Email Address
+                            </label>
+                            <input type="email" formControlName="email" class="form-control" id="email"
+                                placeholder="Enter email address">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="mobileNumber" class="form-label">
+                                <i class="fas fa-phone me-2"></i>Mobile Number
+                            </label>
+                            <input type="tel" formControlName="mobileNumber" class="form-control" id="mobileNumber"
+                                placeholder="Enter mobile number">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">
+                                <i class="fas fa-lock me-2"></i>Password
+                            </label>
+                            <input type="password" formControlName="password" class="form-control" id="password"
+                                placeholder="Enter password">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="role" class="form-label">
+                                <i class="fas fa-user-tie me-2"></i>Role
+                            </label>
+                            <select class="form-select" formControlName="role" id="role">
+                                <option value="">Select role</option>
+                                <option value="Super Admin">Super Admin</option>
+                                <option value="Candidate">Candidate</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check form-switch">
+                                <input formControlName="isActive" class="form-check-input" type="checkbox" id="isActive"
+                                    checked>
+                                <label class="form-check-label fw-semibold" for="isActive">
+                                    <i class="fas fa-toggle-on me-2"></i>Active Status
                                 </label>
-                                <input type="text" formControlName="fullName" class="form-control" id="fullName" placeholder="Enter full name">
                             </div>
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="email" class="form-label">
-                                    <i class="fas fa-envelope me-2"></i>Email Address
-                                </label>
-                                <input type="email" formControlName="email" class="form-control" id="email" placeholder="Enter email address">
-                            </div>
+                        <div class="d-grid gap-2">
+                            @if (candidateForm.controls['candidateId'].value ==0) {
+                            <button type="submit" class="btn btn-custom btn-success-custom">
+                                <i class="fas fa-save me-2"></i>Create Candidate
+                            </button>
+                            } @else {
+                            <button type="submit" class="btn btn-custom btn-success-custom">
+                                <i class="fas fa-save me-2"></i>Update Candidate
+                            </button>
+                            }
 
-                            <div class="mb-3">
-                                <label for="mobileNumber" class="form-label">
-                                    <i class="fas fa-phone me-2"></i>Mobile Number
-                                </label>
-                                <input type="tel" formControlName="mobileNumber" class="form-control" id="mobileNumber" placeholder="Enter mobile number">
-                            </div>
 
-                            <div class="mb-3">
-                                <label for="password" class="form-label">
-                                    <i class="fas fa-lock me-2"></i>Password
-                                </label>
-                                <input type="password" formControlName="password" class="form-control" id="password" placeholder="Enter password">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="role" class="form-label">
-                                    <i class="fas fa-user-tie me-2"></i>Role
-                                </label>
-                                <select class="form-select" formControlName="role" id="role">
-                                    <option value="">Select role</option>
-                                    <option value="SuperAdmin">Super Admin</option> 
-                                    <option value="Candidate">Candidate</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-4">
-                                <div class="form-check form-switch">
-                                    <input formControlName="isActive" class="form-check-input" type="checkbox" id="isActive" checked>
-                                    <label class="form-check-label fw-semibold" for="isActive">
-                                        <i class="fas fa-toggle-on me-2"></i>Active Status
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="d-grid gap-2">
-                                @if (candidateForm.controls['candidateId'].value ==0) {
-                                    <button type="submit"  class="btn btn-custom btn-success-custom">
-                                    <i class="fas fa-save me-2"></i>Create Candidate
-                                </button>
-                                } @else {
-                                      <button type="button"  class="btn btn-custom btn-success-custom">
-                                    <i class="fas fa-save me-2"></i>Update Candidate
-                                </button>
-                                }
-                                
-                               
-                                <button type="button" class="btn btn-custom btn-secondary-custom">
-                                    <i class="fas fa-redo me-2"></i>Reset Form
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                            <button type="button" class="btn btn-custom btn-secondary-custom" (click)="resetForm()">
+                                <i class="fas fa-redo me-2"></i>Reset Form
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
+        </div>
 
-            <div class="col-lg-8">
-                <div class="card table-card">
-                    <div class="card-body p-4">
-                        <div class="section-header">
-                            <i class="fas fa-list"></i>
-                            <h4>Candidates List</h4>
-                        </div>
+        <div class="col-lg-8">
+            <div class="card table-card">
+                <div class="card-body p-4">
+                    <div class="section-header">
+                        <i class="fas fa-list"></i>
+                        <h4>Candidates List</h4>
+                    </div>
 
-                        <div class="table-responsive">
-                            <table class="table table-hover mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let candidate of candidateList();let sr =index">
-                                        <td><strong>{{sr+1}}</strong></td>
-                                        <td>{{candidate.fullName}}</td>
-                                         <td>{{candidate.email}}</td>
-                                        <td><span class="role-badge role-admin">{{candidate.role}}</span></td>
-                                        <td><span [class]="candidate.isActive? 'badge-status badge-active':'badge-status badge-inactive'"><i class="fas fa-check-circle me-1"></i>{{candidate.isActive}}</span></td>
-                                        <td>
-                                            <button (click)="onEdit(candidate)" class="action-btn btn-success-custom">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="action-btn btn-danger-custom">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                   
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            @if (isLoading()) {
+                            <div class="text-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                            } @else {
+                            @if (candidateList().length > 0) {
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let candidate of candidateList();let sr =index">
+                                    <td><strong>{{sr+1}}</strong></td>
+                                    <td>{{candidate.fullName}}</td>
+                                    <td>{{candidate.email}}</td>
+                                    <td><span class="role-badge role-admin">{{candidate.role}}</span></td>
+                                    <td><span
+                                            [class]="candidate.isActive? 'badge-status badge-active':'badge-status badge-inactive'"><i
+                                                class="fas fa-check-circle me-1"></i>{{candidate.isActive}}</span></td>
+                                    <td>
+                                        <button (click)="onEdit(candidate)" class="action-btn btn-success-custom">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn btn-danger-custom" (click)="onDelete(candidate.candidateId)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                            } @else {
+                            <div class="text-center p-4">
+                                <h5>No Candidates Found</h5>   
+                            </div> 
+                            }
+                            }
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-  
+</div>

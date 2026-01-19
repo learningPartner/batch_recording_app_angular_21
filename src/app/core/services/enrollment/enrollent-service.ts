@@ -1,28 +1,31 @@
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { IAPIRepsone } from '../../model/interfaces/Common.Model';
-import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { ApiMethodConstant, Controllers, METHOD_NAME } from '../../constant/Global.constant';
+import { ApiMethodConstant } from '../../constant/Global.constant';
+import { BatchModel } from '../../model/classes/Batch.Model';
+import { BehaviorSubject, delay, Observable, Subject } from 'rxjs';
+import { IAPIRepsone } from '../../model/interfaces/Common.Model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EnrollentService {
+
   http = inject(HttpClient);
 
-  getAllEnrollments(): Observable<IAPIRepsone> {
-    return this.http.get<IAPIRepsone>(environment.API_URL + Controllers.ENROLLMENTS +'/'+METHOD_NAME.ENROLMENT.GET_ALL_ENROLLMENT);
-  }
+  constructor() {}
 
-  deleteEnrollment(enrollmentId: number): Observable<IAPIRepsone> {
-    debugger;
-    return this.http.delete<IAPIRepsone>(
-      environment.API_URL + ApiMethodConstant.ENROLLMENTS + '/' + enrollmentId
+  getAllEnrollments(): Observable<IAPIRepsone> {
+    return this.http.get<IAPIRepsone>(environment.API_URL + ApiMethodConstant.ENROLLMENTS+'/GetAllEnrollment').pipe(
+      delay(300)
     );
   }
-  //https://feestracking.freeprojectapi.com/api/BatchEnrollments/by-candidate/103
-  getEnrolledBatcheByCandidateId(ID: Number) {
-    return this.http.get(environment.API_URL + Controllers.ENROLLMENTS + '/' +METHOD_NAME.ENROLMENT.GET_ENROLLMENT_BY_CANDIDATE+'/'+ID )
+
+  deleteEnrollment(enrollmentId: number): Observable<IAPIRepsone> { 
+    const url = `${environment.API_URL}${ApiMethodConstant.ENROLLMENTS}/${enrollmentId}`;
+    return this.http.delete<IAPIRepsone>(url).pipe(
+      delay(500)
+    );
   }
+
 }

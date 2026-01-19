@@ -9,16 +9,6 @@ import { CandidateModel } from '../../core/model/classes/Candidate.Model';
 import { CandidateService } from '../../core/services/candidate/candidate-service';
 import { EnrollentService } from '../../core/services/enrollment/enrollent-service';
 
-interface EnrollmentModel {
-  enrollmentId: number;
-  batchId: number;
-  batchName: string;
-  candidateId: number;
-  fullName: string;
-  enrollmentDate: string;
-  isActive: boolean;
-}
-
 @Component({
   selector: 'app-enrollment',
   imports: [ReactiveFormsModule, AsyncPipe, DatePipe],
@@ -33,9 +23,11 @@ export class Enrollment implements OnInit, OnDestroy {
   batchService = inject(BatchService);
   candidateSrv = inject(CandidateService);
   enrollmentSrv = inject(EnrollentService);
-  
   batchData = signal<BatchModel[]>([]);
   enrollmentList = signal<EnrollmentModel[]>([]);
+
+  enrollmentList = signal<any[]>([]);
+  isLoading = signal<boolean>(false);
 
   candidateList$: Observable<CandidateModel[]> = new Observable<CandidateModel[]>;
 
@@ -45,12 +37,17 @@ export class Enrollment implements OnInit, OnDestroy {
 
   timerInterval$ = interval(1000);
 
+  //currenTime: Observable<any> = new Observable<any>;
+
   couter$ = interval(2000);
 
   constructor() {
     this.initiaizeForm();
 
-    this.timerInterval$.subscribe(res => { 
+    // this.couter$.subscribe(res=>{
+    //   this.counterValue.set(res);
+    // })
+    this.timerInterval$.subscribe(res => {
       this.currentDate.set(new Date())
     })
     this.candidateList$ = this.candidateSrv.getAllCandidates().pipe(
@@ -76,16 +73,16 @@ export class Enrollment implements OnInit, OnDestroy {
   getAllBatches() {
     this.batchService.getAllBatches().subscribe({
       next: (res: IAPIRepsone) => {
-        debugger;
         this.batchData.set(res.data);
       }
     })
   }
 
   getAllEnrollments() {
-    this.enrollmentSrv.getAllEnrollments().subscribe({
+    this.isLoading.set(true);
+    this.subscriptipon = this.enrollmentSrv.getAllEnrollments().subscribe({
       next: (res: IAPIRepsone) => {
-        debugger;
+        this.isLoading.set(false);
         this.enrollmentList.set(res.data);
       }
     })
@@ -116,5 +113,18 @@ export class Enrollment implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptipon.unsubscribe();
+  }
+
+  onDelete(enrollmentId: number) {
+    if (confirm("Are you sure to delete this enrollment?")) {
+      this.enrollmentSrv.deleteEnrollment(enrollmentId).subscribe({
+        next: (res: IAPIRepsone) => {
+          if (res.result) {
+            alert(res.message);
+            this.getAllEnrollments();
+          }
+        }
+      })
+    }
   }
 }

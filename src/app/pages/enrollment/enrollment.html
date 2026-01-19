@@ -1,6 +1,6 @@
 <div class="container-fluid py-5 main-container"> 
     <div class="row g-4">
-        <div class="col-lg-5">
+        <div class="col-lg-4">
             <div class="card form-card">
                 <div class="card-body p-4">
                     <div class="section-header">
@@ -62,7 +62,7 @@
             </div>
         </div>
 
-        <div class="col-lg-7">
+        <div class="col-lg-8">
             <div class="card table-card">
                 <div class="card-body p-4">
                     <div class="section-header">
@@ -72,41 +72,54 @@
 
                     <div class="table-responsive">
                         <table class="table table-hover mb-0">
-                            <thead>
+                            @if (isLoading()) {
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Batch</th>
-                                    <th>Candidate</th>
-                                    <th>Enrollment Date</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <td colspan="6" class="text-center py-5">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @for (item of enrollmentList(); track item.enrollmentId) {
+                            } @else {
+                                @if (enrollmentList().length === 0) {
                                     <tr>
-                                        <td><strong>{{item.enrollmentId}}</strong></td>
-                                        <td><span class="batch-badge">{{item.batchName}}</span></td>
-                                        <td><span class="candidate-name">{{item.fullName}}</span></td>
-                                        <td>{{item.enrollmentDate | date:'yyyy-MM-dd'}}</td>
-                                        <td>
-                                            @if (item.isActive) {
-                                                <span class="badge-status badge-active"><i class="fas fa-check-circle me-1"></i>Active</span>
-                                            } @else {
-                                                <span class="badge-status badge-inactive"><i class="fas fa-times-circle me-1"></i>Inactive</span>
-                                            }
-                                        </td>
-                                        <td>
-                                            <button class="action-btn btn-warning-custom">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button type="button" (click)="onDeleteEnrollment(item.enrollmentId)" class="action-btn btn-danger-custom">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                        <td colspan="6" class="text-center py-5">
+                                            No enrollments found.
                                         </td>
                                     </tr>
+                                } @else {
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Batch</th>
+                                            <th>Candidate</th>
+                                            <th>Enrollment Date</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (item of enrollmentList(); track $index) {
+                                            <tr>
+                                                <td><strong>{{$index + 1}}</strong></td>
+                                                <td><span class="batch-badge">{{item.batchName}}</span></td>
+                                                <td><span class="candidate-name">{{item.fullName}}</span></td>
+                                                <td>{{item.enrollmentDate | date: 'dd-MM-yyyy'}}</td>
+                                                <td><span class="badge-status badge-active"><i
+                                                            class="fas fa-check-circle me-1"></i>Active</span></td>
+                                                <td>
+                                                    <button class="action-btn btn-warning-custom">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="action-btn btn-danger-custom" (click)="onDelete(item.enrollmentId)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
                                 }
-                            </tbody>
+                            }
                         </table>
                     </div>
                 </div>
