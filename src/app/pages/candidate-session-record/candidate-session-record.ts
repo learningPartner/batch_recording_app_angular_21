@@ -32,11 +32,11 @@ export class CandidateSessionRecord implements OnInit{
   }
 
   getBatchesByCandiate(id: number) {
-    this.enrollSrv.getEnrolledBatcheByCandidateId(id).subscribe({
-      next:(res:any)=>{
-        this.enrollments.set(res.data);
-      }
-    })
+    // this.enrollSrv.getEnrolledBatcheByCandidateId(id).subscribe({
+    //   next:(res:any)=>{
+    //     this.enrollments.set(res.data);
+    //   }
+    // })
   }
 
   getSessionRecordings(bId: number) {

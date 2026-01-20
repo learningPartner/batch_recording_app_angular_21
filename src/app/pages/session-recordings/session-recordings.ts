@@ -47,7 +47,7 @@ export class SessionRecordings {
 
   onSaveSession() {
     const formValue =  this.sessionForm().value();
-    debugger;
+    
     this.recordingSrv.createNewSessionRecording(formValue).subscribe({
       next:(reS:any)=>{
 

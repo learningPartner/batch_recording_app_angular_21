@@ -24,10 +24,10 @@ export class BatchMaster implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadBatches();
     this.batchSrv.roleSub.subscribe((res) => {
-      debugger;
+      
     })
     this.batchSrv.roleBehvaiourSub.subscribe((res) => {
-      debugger;
+      
     })
   }
 

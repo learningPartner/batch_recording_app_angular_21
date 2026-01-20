@@ -5,7 +5,7 @@ import { GlobalConstant } from '../constant/Global.constant';
 //angualr 16 => arrwo fun 
 
 export const authGuard: CanActivateFn = (route, state) => {
-  debugger;
+  
   const router = inject(Router);
   const localData = localStorage.getItem(GlobalConstant.LOCAL_KEY_LOGIN);
   if(localData != null) {

@@ -24,9 +24,8 @@ export class Enrollment implements OnInit, OnDestroy {
   candidateSrv = inject(CandidateService);
   enrollmentSrv = inject(EnrollentService);
   batchData = signal<BatchModel[]>([]);
-  enrollmentList = signal<EnrollmentModel[]>([]);
-
   enrollmentList = signal<any[]>([]);
+ 
   isLoading = signal<boolean>(false);
 
   candidateList$: Observable<CandidateModel[]> = new Observable<CandidateModel[]>;
@@ -90,7 +89,7 @@ export class Enrollment implements OnInit, OnDestroy {
 
   onSaveEnrollment() {
     const formValue = this.enrollmentForm.value;
-    debugger;
+    
   }
 
   onDeleteEnrollment(enrollmentId: number) {
@@ -99,12 +98,12 @@ export class Enrollment implements OnInit, OnDestroy {
     if (confirmDelete) {
       this.enrollmentSrv.deleteEnrollment(enrollmentId).subscribe({
         next: (res: IAPIRepsone) => {
-          debugger;
+          
           // Refresh the enrollment list after successful deletion
           this.getAllEnrollments();
         },
         error: (error) => {
-          debugger;
+          
           console.error('Error deleting enrollment:', error);
         }
       })

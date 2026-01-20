@@ -13,10 +13,10 @@ export class Dashboard {
   
   constructor() {
      this.batchSrv.roleSub.subscribe((res)=>{
-      debugger;
+      
     })
     this.batchSrv.roleBehvaiourSub.subscribe((res)=>{
-      debugger;
+      
     })
   }
 }

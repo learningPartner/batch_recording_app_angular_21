@@ -21,17 +21,16 @@ export class Layout {
   userSrv =  inject(User); 
 
   constructor() {  
-    debugger;
+    
   }
 
   onLogOff() {
     localStorage.removeItem(GlobalConstant.LOCAL_KEY_LOGIN);
-    this.router.navigate(['login'])
-
+    this.router.navigate(['login']) 
   }
 
   onRoleChnages(event:any) {
-    debugger;
+    
     this.batchSr.roleSub.next(event.target.value);
     this.batchSr.roleBehvaiourSub.next(event.target.value);
   }

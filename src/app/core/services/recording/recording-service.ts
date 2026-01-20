@@ -16,7 +16,7 @@ export class RecordingService {
 
 
   createNewSessionRecording(obj: ISession) : Observable<IAPIRepsone> {
-     debugger;
+     
     return this.http.post<IAPIRepsone>(environment.API_URL + ApiMethodConstant.BATCH,obj)
   }
 

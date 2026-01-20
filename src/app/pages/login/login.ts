@@ -21,15 +21,16 @@ export class Login {
   router = inject(Router);
 
   onLogin() {
-    debugger;
+    
     this.http.post("https://feestracking.freeprojectapi.com/api/BatchUser/login", this.loginObj).subscribe({
       next: (res: any) => {
-        debugger;
+        
         localStorage.setItem(GlobalConstant.LOCAL_KEY_LOGIN, JSON.stringify(res.data));
+        localStorage.setItem('batchToken', res.token)
         this.router.navigateByUrl('dashboard')
       },
       error: (err => {
-        debugger;
+        
         alert(err.error.message)
       })
     })

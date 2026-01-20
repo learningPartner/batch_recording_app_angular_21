@@ -33,13 +33,7 @@ export class BatchService {
     );
   }
 
-  deleteBatch(batchId: number): Observable<IAPIRepsone> { 
-    const url = `${environment.API_URL}${ApiMethodConstant.BATCH}/${batchId}`;
-    return this.http.delete<IAPIRepsone>(url).pipe(
-      delay(500)
-    );
-  }
-
+ 
   updateBatch(id: number, obj: BatchModel): Observable<IAPIRepsone> {
     return this.http.put<IAPIRepsone>(environment.API_URL + ApiMethodConstant.BATCH + '/' + id, obj);
   }

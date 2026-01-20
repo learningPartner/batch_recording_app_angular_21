@@ -5,7 +5,7 @@
                 <div class="card-body p-4">
                     <div class="section-header">
                         <i class="fas fa-plus-circle"></i>
-                        <h4>{{isEditMode() ? 'Edit Batch' : 'Add New Batch'}}</h4>
+                        <h4> Add New Batch </h4>
                     </div>
 
                     <form>
@@ -55,9 +55,9 @@
 
                         <div class="d-grid gap-2">
                             <button type="button" (click)="onSaveBatch()" class="btn btn-custom btn-success-custom">
-                                <i class="fas fa-save me-2"></i>{{isEditMode() ? 'Update Batch' : 'Create Batch'}}
+                                <i class="fas fa-save me-2"></i> Update Batch 
                             </button>
-                            <button type="button" (click)="resetForm()" class="btn btn-custom btn-secondary-custom">
+                            <button type="button"   class="btn btn-custom btn-secondary-custom">
                                 <i class="fas fa-redo me-2"></i>Reset Form
                             </button>
                         </div>
