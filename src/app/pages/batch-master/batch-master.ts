@@ -5,6 +5,8 @@ import { BatchService } from '../../core/services/batch/batch-service';
 import { IAPIRepsone } from '../../core/model/interfaces/Common.Model';
 import { DatePipe, NgClass } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { User } from '../../core/services/user/user';
+import { genericSearch } from '../../core/helper/helper';
 
 @Component({
   selector: 'app-batch-master',
@@ -17,11 +19,22 @@ export class BatchMaster implements OnInit, OnDestroy {
   newBatchObj: BatchModel = new BatchModel();
   batchSrv = inject(BatchService);
   batchList = signal<BatchModel[]>([]);
+  obatchList = signal<BatchModel[]>([]);
   isLoading = signal<boolean>(false);
 
   subscription: Subscription = new Subscription();
-
+  userSrv= inject(User);
   ngOnInit(): void {
+      this.userSrv.onSearchChange.subscribe((searchText:string)=>{
+      debugger;
+      if(searchText == '') {
+         this.batchList.set(this.obatchList())
+      } else {
+         const filterRecord =  genericSearch(this.batchList(),searchText)
+      this.batchList.set(filterRecord)
+      }
+     
+    })
     this.loadBatches();
     this.batchSrv.roleSub.subscribe((res) => {
       
@@ -40,6 +53,7 @@ export class BatchMaster implements OnInit, OnDestroy {
       next: (result: IAPIRepsone) => {
         this.isLoading.set(false);
         this.batchList.set(result.data);
+        this.obatchList.set(result.data)
       }
     })
   }

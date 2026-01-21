@@ -24,6 +24,12 @@ export class Layout {
     
   }
 
+  onSearch(event:any) {
+    debugger;
+    const searchjText =  event.target.value;
+    this.userSrv.onSearchChange.next(searchjText)
+  }
+
   onLogOff() {
     localStorage.removeItem(GlobalConstant.LOCAL_KEY_LOGIN);
     this.router.navigate(['login']) 

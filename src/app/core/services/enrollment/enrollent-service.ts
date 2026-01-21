@@ -21,6 +21,12 @@ export class EnrollentService {
     );
   }
 
+  getEnrolledBatcheByCandidateId(id:number) {
+return this.http.get<IAPIRepsone>(`${environment.API_URL}BatchEnrollments/by-candidate/${id}`).pipe(
+      delay(300)
+    );
+  }
+
   deleteEnrollment(enrollmentId: number): Observable<IAPIRepsone> { 
     const url = `${environment.API_URL}${ApiMethodConstant.ENROLLMENTS}/${enrollmentId}`;
     return this.http.delete<IAPIRepsone>(url).pipe(

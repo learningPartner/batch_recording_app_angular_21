@@ -4,30 +4,30 @@
         <div class="text-center mb-5">
             <h1 class="header-title">My Enrolled Batches</h1>
             @for (item of enrollments(); track $index) {
-                <button class="btn btn-success" (click)="getSessionRecordings(item.batchId)">{{item.batchName}}</button>
+            <button class="btn btn-success" (click)="getSessionRecordings(item.batchId)">{{item.batchName}}</button>
             }
         </div>
 
         <div class="row g-4">
             @for (item of SessionRecordings(); track $index) {
-                 <div class="col-lg-6">
-                <div class="batch-card" >
+            <div class="col-lg-6">
+                <div class="batch-card">
                     <div class="batch-card-header">
                         <div class="batch-name">{{item.topicName}}</div>
                         <div class="batch-code">{{item.sessionDate}}</div>
                     </div>
                     <div class="batch-card-body">
-                        <p class="batch-description">{{item.topicDescription}}</p> 
-                        <button class="btn btn-custom btn-primary-custom mt-3">
+                        <p class="batch-description">{{item.topicDescription}}</p>
+                        <button (click)="openModal(item.youtubeVideoId)" class="btn btn-custom btn-primary-custom mt-3">
                             <i class="fas fa-play me-2"></i>View Recordings
                         </button>
                     </div>
                 </div>
             </div>
             }
-           
 
-          
+
+
         </div>
     </div>
 
@@ -118,6 +118,33 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" #videoModal>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="btn-close" (click)="closeModal()" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <!-- <iframe width="100%" height="400" [src]="videoUrl" frameborder="0" allowfullscreen>
+                </iframe> -->
+                <iframe width="735" height="413" [src]="videoUrl" title="Angular Project B-32 _ Store Interceptor| angular 21 Project" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+
         </div>
     </div>
 </div>

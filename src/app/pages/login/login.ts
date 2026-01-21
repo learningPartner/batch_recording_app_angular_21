@@ -22,7 +22,7 @@ export class Login {
 
   onLogin() {
     
-    this.http.post("https://feestracking.freeprojectapi.com/api/BatchUser/login", this.loginObj).subscribe({
+    this.http.post("https://api.miniprojectideas.com/api/BatchUser/login", this.loginObj).subscribe({
       next: (res: any) => {
         
         localStorage.setItem(GlobalConstant.LOCAL_KEY_LOGIN, JSON.stringify(res.data));

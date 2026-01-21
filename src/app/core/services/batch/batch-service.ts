@@ -21,9 +21,7 @@ export class BatchService {
   }
 
   getAllBatches(): Observable<IAPIRepsone> {
-    return this.http.get<IAPIRepsone>(environment.API_URL + ApiMethodConstant.BATCH).pipe(
-      delay(300)
-    );
+    return this.http.get<IAPIRepsone>(environment.API_URL + ApiMethodConstant.BATCH) 
   }
 
   editBatch(obj: BatchModel): Observable<IAPIRepsone> {

@@ -4,6 +4,8 @@ import { CandidateService } from '../../core/services/candidate/candidate-servic
 import { IAPIRepsone } from '../../core/model/interfaces/Common.Model';
 import { CandidateModel } from '../../core/model/classes/Candidate.Model';
 import { NgFor } from '@angular/common';
+import { User } from '../../core/services/user/user';
+import { genericSearch } from '../../core/helper/helper';
 
 @Component({
   selector: 'app-candidates',
@@ -16,10 +18,23 @@ export class Candidates implements OnInit {
   candidateForm: FormGroup = new FormGroup({});
   candidateSer = inject(CandidateService);
   candidateList = signal<CandidateModel[]>([]);
+  originalCandidateList = signal<CandidateModel[]>([]);
   isLoading = signal<boolean>(false);
+  userSrv= inject(User);
 
   constructor() {
     this.initializeForm();
+    this.userSrv.onSearchChange.subscribe((searchText:string)=>{
+      debugger;
+      if(searchText == '') {
+         this.candidateList.set(this.originalCandidateList())
+      } else {
+         const filterRecord =  genericSearch(this.candidateList(),searchText)
+      this.candidateList.set(filterRecord)
+      }
+     
+    })
+
   }
 
   ngOnInit(): void {
@@ -35,6 +50,7 @@ export class Candidates implements OnInit {
       next: (res: IAPIRepsone) => {
         this.isLoading.set(false);
         this.candidateList.set(res.data);
+        this.originalCandidateList.set(res.data)
       }
     })
   }

@@ -40,10 +40,7 @@
 
       </ul>
       <form class="d-flex">
-        <select name="" id="" (change)="onRoleChnages($event)">
-          <option value="Guest">Guest</option>
-          <option value="Admin">Admin</option>
-        </select>
+        <input type="text" placeholder="search.." (input)="onSearch($event)" />
         <ng-container *ngIf="userSrv.loggedUserData$ | async as userDetail">
           <button class="btn btn-outline-white text-white" type="button">{{userDetail.email}}</button>
         </ng-container>

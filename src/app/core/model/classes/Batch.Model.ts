@@ -1,8 +1,8 @@
 export class BatchModel {
     batchId: number;
-    batchName: string;
+    batchName: string = "";
     description: string;
-    startDate: string;
+    startDate?: string;
     endDate: string;
     isActive: boolean;
     createdAt: Date;
