@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="mynavbar">
       <ul class="navbar-nav me-auto">
         <ng-container *ngIf="userSrv.loggedUserData$ | async as userDetail">
-          {{userDetail.role}}
+          <span class="text-white">{{userDetail.role}}</span> 
           @if (userDetail.role == roleEnum.SUPER_ADMIN_ROLE) {
           <li class="nav-item">
             <a class="nav-link active" routerLink="dashboard">Dashboard</a>

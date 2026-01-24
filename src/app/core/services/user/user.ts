@@ -15,7 +15,11 @@ export class User {
   loggedUserData$ : BehaviorSubject<CandidateModel> = new BehaviorSubject<CandidateModel>(this.loggedUserData)
 
   constructor() {
+    debugger;
     
+  }
+
+  readLoggedData() {
     const localData = localStorage.getItem(GlobalConstant.LOCAL_KEY_LOGIN);
     if (localData != null) {
       

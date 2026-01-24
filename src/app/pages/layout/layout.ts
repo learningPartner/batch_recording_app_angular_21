@@ -21,11 +21,11 @@ export class Layout {
   userSrv =  inject(User); 
 
   constructor() {  
-    
+    this.userSrv.readLoggedData();
   }
 
   onSearch(event:any) {
-    debugger;
+    
     const searchjText =  event.target.value;
     this.userSrv.onSearchChange.next(searchjText)
   }

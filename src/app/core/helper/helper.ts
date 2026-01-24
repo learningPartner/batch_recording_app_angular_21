@@ -1,5 +1,5 @@
 function genericSearch(dataArray: any, searchText: string) {
-     debugger;
+     
   if (!searchText) return dataArray;
 
   searchText = searchText.toString().toLowerCase();

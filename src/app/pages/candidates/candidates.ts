@@ -25,7 +25,7 @@ export class Candidates implements OnInit {
   constructor() {
     this.initializeForm();
     this.userSrv.onSearchChange.subscribe((searchText:string)=>{
-      debugger;
+      
       if(searchText == '') {
          this.candidateList.set(this.originalCandidateList())
       } else {

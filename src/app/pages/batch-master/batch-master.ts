@@ -26,7 +26,7 @@ export class BatchMaster implements OnInit, OnDestroy {
   userSrv= inject(User);
   ngOnInit(): void {
       this.userSrv.onSearchChange.subscribe((searchText:string)=>{
-      debugger;
+      
       if(searchText == '') {
          this.batchList.set(this.obatchList())
       } else {
