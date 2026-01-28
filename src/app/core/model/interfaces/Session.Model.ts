@@ -1,6 +1,6 @@
 export interface ISession {
   sessionId: number
-  batchId: number
+  batchId: string
   topicName: string
   topicDescription: string
   youtubeVideoId: string
@@ -10,3 +10,14 @@ export interface ISession {
   createdAt: Date
   updatedAt: Date
 }
+
+export interface ISessionRecording {
+  sessionId: number
+  durationInMinutes: number
+  displayOrder: number
+  topicName: string
+  sessionDate: string
+  batchName: string
+  youtubeVideoId: string
+}
+

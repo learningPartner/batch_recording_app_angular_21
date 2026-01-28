@@ -115,6 +115,10 @@ export class BatchMaster implements OnInit, OnDestroy {
     this.callCreateBatchApi();
   }
 
+  onResetForm() {
+    this.newBatchObj = new BatchModel();
+  }
+
   editBatch(item: BatchModel) {
     this.newBatchObj = { ...item };
   }

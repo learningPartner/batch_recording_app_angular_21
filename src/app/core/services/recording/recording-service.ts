@@ -17,11 +17,11 @@ export class RecordingService {
 
   createNewSessionRecording(obj: ISession) : Observable<IAPIRepsone> {
      
-    return this.http.post<IAPIRepsone>(environment.API_URL + ApiMethodConstant.BATCH,obj)
+    return this.http.post<IAPIRepsone>(environment.API_URL + ApiMethodConstant.SESSIONS,obj)
   }
 
   getAllSessionRecording(): Observable<IAPIRepsone> {
-    return this.http.get<IAPIRepsone>(environment.API_URL + ApiMethodConstant.BATCH);
+    return this.http.get<IAPIRepsone>(environment.API_URL + Controllers.SESSIONS + '/'+ METHOD_NAME.SESSION.GET_ALL_RECORDING);
   }
 
   getAllSessionRecordingByBatchId(batchId: number): Observable<IAPIRepsone> {

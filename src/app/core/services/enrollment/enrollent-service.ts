@@ -21,6 +21,10 @@ export class EnrollentService {
     );
   }
 
+   saveEnrollment(obj:any): Observable<IAPIRepsone> {
+    return this.http.post<IAPIRepsone>(environment.API_URL + ApiMethodConstant.ENROLLMENTS,obj) 
+  }
+
   getEnrolledBatcheByCandidateId(id:number) {
 return this.http.get<IAPIRepsone>(`${environment.API_URL}BatchEnrollments/by-candidate/${id}`).pipe(
       delay(300)

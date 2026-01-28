@@ -89,7 +89,12 @@ export class Enrollment implements OnInit, OnDestroy {
 
   onSaveEnrollment() {
     const formValue = this.enrollmentForm.value;
-    
+    this.enrollmentSrv.saveEnrollment(formValue).subscribe({
+      next: (res: IAPIRepsone) => {
+         alert("Emnrol,menr Done");
+         this.getAllEnrollments();
+      }
+    })
   }
 
   onDeleteEnrollment(enrollmentId: number) {

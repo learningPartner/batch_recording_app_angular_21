@@ -28,7 +28,8 @@ export const METHOD_NAME = {
         
     },
     SESSION: {
-        GET_SESSION_BY_BATCH:'by-batch'
+        GET_SESSION_BY_BATCH:'by-batch',
+        GET_ALL_RECORDING: 'GetAllSessionsRecordings'
     }
 }
 
