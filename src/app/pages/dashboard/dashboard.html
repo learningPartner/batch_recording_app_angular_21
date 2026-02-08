@@ -1,1 +1,183 @@
-<p>dashboard works!</p>
+<div class="dashboard-shell">
+  <div class="dashboard-hero">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Batch Recording</p>
+      <h4 class="hero-title">Dashboard</h4>
+      <p class="hero-subtitle">Live snapshot of batches, candidates, and recordings.</p>
+    </div>
+    <div class="hero-orb" aria-hidden="true"></div>
+  </div>
+
+  <div class="container py-3">
+    <div class="row g-4">
+      <!-- Left: counts (col-7) -->
+      <div class="col-12 col-lg-7">
+        @if (loggedUserData.role == 'Super Admin') {
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-head">
+              <h6 class="stat-title">Active Batches</h6>
+              <span class="stat-pill status-live">Live</span>
+            </div>
+            <div class="stat-value" id="activeBatchesCount">{{adminDashData()?.activeBatches || 0}}</div>
+            <div class="stat-meta">Currently running batch groups</div>
+            <div class="stat-glow" aria-hidden="true"></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-head">
+              <h6 class="stat-title">Total Batches</h6>
+              <span class="stat-pill status-core">Core</span>
+            </div>
+            <div class="stat-value" id="totalBatchesCount">{{adminDashData()?.totalBatches || 0}}</div>
+            <div class="stat-meta">All batches onboarded</div>
+            <div class="stat-glow" aria-hidden="true"></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-head">
+              <h6 class="stat-title">Total Candidates</h6>
+              <span class="stat-pill status-growth">Growth</span>
+            </div>
+            <div class="stat-value" id="totalCandidatesCount">{{adminDashData()?.totalCandidates || 0}}</div>
+            <div class="stat-meta">Active candidate accounts</div>
+            <div class="stat-glow" aria-hidden="true"></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-head">
+              <h6 class="stat-title">Total Enrollments</h6>
+              <span class="stat-pill status-engage">Engage</span>
+            </div>
+            <div class="stat-value" id="totalEnrollmentsCount">
+              {{adminDashData()?.totalEnrollments || 0}}</div>
+            <div class="stat-meta">Enrollments across batches</div>
+            <div class="stat-glow" aria-hidden="true"></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-head">
+              <h6 class="stat-title">Total Sessions</h6>
+              <span class="stat-pill status-ops">Ops</span>
+            </div>
+            <div class="stat-value" id="totalSessionsCount">{{adminDashData()?.totalSessions || 0}}</div>
+            <div class="stat-meta">Sessions on the platform</div>
+            <div class="stat-glow" aria-hidden="true"></div>
+          </div>
+        </div>
+        } @else {
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-head">
+              <h6 class="stat-title">Enrolled Batches</h6>
+              <span class="stat-pill status-core">Core</span>
+            </div>
+            <div class="stat-value" id="activeBatchesCount">
+              {{candidateDashData()?.enrolledBatches || 0}}</div>
+            <div class="stat-meta">Batches you are in</div>
+            <div class="stat-glow" aria-hidden="true"></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-head">
+              <h6 class="stat-title">Active Batches</h6>
+              <span class="stat-pill status-live">Live</span>
+            </div>
+            <div class="stat-value" id="totalBatchesCount">{{candidateDashData()?.activeBatches || 0}}</div>
+            <div class="stat-meta">Batches running now</div>
+            <div class="stat-glow" aria-hidden="true"></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-head">
+              <h6 class="stat-title">Total Available Sessions</h6>
+              <span class="stat-pill status-growth">Growth</span>
+            </div>
+            <div class="stat-value" id="totalCandidatesCount">
+              {{candidateDashData()?.totalAvailableSessions || 0}}</div>
+            <div class="stat-meta">Sessions ready to record</div>
+            <div class="stat-glow" aria-hidden="true"></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-head">
+              <h6 class="stat-title">Active Enrollments</h6>
+              <span class="stat-pill status-engage">Engage</span>
+            </div>
+            <div class="stat-value" id="totalEnrollmentsCount">
+              {{candidateDashData()?.activeEnrollments || 0}}</div>
+            <div class="stat-meta">Your active enrollments</div>
+            <div class="stat-glow" aria-hidden="true"></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-head">
+              <h6 class="stat-title">Total Sessions</h6>
+              <span class="stat-pill status-ops">Ops</span>
+            </div>
+            <div class="stat-value" id="totalSessionsCount">{{adminDashData()?.totalSessions || 0}}</div>
+            <div class="stat-meta">Sessions in the system</div>
+            <div class="stat-glow" aria-hidden="true"></div>
+          </div>
+        </div>
+        }
+      </div>
+
+      <!-- Right: batch cards (col-5) -->
+      <div class="col-12 col-lg-5">
+        <div class="list-card">
+          <div class="list-card-header">
+            @if (loggedUserData.role == 'Super Admin') {
+            <h6>Batches</h6>
+            } @else {
+            <h6>Batch Wise Recording</h6>
+            }
+            <span class="list-badge">Updated</span>
+          </div>
+          <div class="list-card-body">
+
+            @if (loggedUserData.role == 'Super Admin') {
+            <ng-container *ngIf="batchWiseData()?.length; else noBatches">
+              <div *ngFor="let b of batchWiseData()" class="batch-item">
+                <div class="batch-item-body">
+                  <div>
+                    <div class="batch-title">{{b.batchName}}</div>
+                    <small class="batch-meta">Batch ID: {{b.batchId}} • Candidates:
+                      {{b.totalCandidates}}</small>
+                  </div>
+                  <div class="batch-status">
+                    <span class="status-dot" [class.dot-active]="b.isActive"
+                      [class.dot-idle]="!b.isActive"></span>
+                    <span class="status-text">{{b.isActive ? 'Active' : 'Inactive'}}</span>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #noBatches>
+              <div class="empty-state">No batches available</div>
+            </ng-template>
+            } @else {
+            <ng-container *ngIf="candidatebatchWiseData()?.length; else noBatches">
+              <div *ngFor="let b of candidatebatchWiseData()" class="batch-item">
+                <div class="batch-item-body">
+                  <div>
+                    <div class="batch-title">{{b.batchName}}</div>
+                    <small class="batch-meta">Recordings tracked by batch</small>
+                  </div>
+                  <div class="batch-status">
+                    <span class="count-chip">{{b.totalRecordings}}</span>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #noBatches>
+              <div class="empty-state">No Batch Enrolled Yet</div>
+            </ng-template>
+            }
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,400 +1,167 @@
-   @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+.batch-card {
+  animation: slideUp 0.6s ease-out;
+  border: 1px solid var(--app-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(12px);
+  background: var(--app-surface);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  cursor: pointer;
+  height: 100%;
+  overflow: hidden;
+}
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+.batch-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--app-border-strong);
+}
 
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
+.batch-card-header {
+  background:
+    linear-gradient(135deg, rgba(22, 242, 179, 0.25), rgba(77, 214, 255, 0.25)),
+    linear-gradient(135deg, #0f172a, #0b2332);
+  color: var(--app-text-strong);
+  padding: 2rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+}
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
+.batch-card-body {
+  padding: 1.5rem;
+  text-align: center;
+}
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+.batch-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--app-text-strong);
+  margin-bottom: 0.5rem;
+}
 
-        body {
-            background: linear-gradient(-45deg, #0ea5e9, #06b6d4, #10b981, #14b8a6);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+.batch-code {
+  display: inline-block;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--app-text);
+  margin-bottom: 1rem;
+}
 
-        .main-container {
-            animation: fadeInUp 0.6s ease-out;
-        }
+.batch-stats {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
 
-        .navbar-custom {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 1rem 0;
-        }
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
 
-        .header-title {
-            background: linear-gradient(135deg, #0ea5e9, #10b981);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-            font-size: 1.8rem;
-        }
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-        .icon-wrapper {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #0ea5e9, #10b981);
-            animation: pulse 2s infinite;
-        }
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--app-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
 
-        .section-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 3px solid #e2e8f0;
-        }
+.batch-description {
+  color: var(--app-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 1rem 0;
+}
 
-        .section-header i {
-            font-size: 1.5rem;
-            margin-right: 1rem;
-            background: linear-gradient(135deg, #0ea5e9, #10b981);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+.session-card-footer {
+  justify-content: center;
+}
 
-        .section-header h4 {
-            margin: 0;
-            font-weight: 700;
-            color: #1e293b;
-        }
+.btn-watch {
+  background: var(--accent-gradient);
+  color: #041018;
+  padding: 0.6rem 1.5rem;
+  border-radius: 10px;
+  border: none;
+  transition: all 0.3s ease;
+}
 
-        .batch-card {
-            animation: slideUp 0.6s ease-out;
-            border: none;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.95);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            height: 100%;
-            overflow: hidden;
-        }
+.btn-watch:hover {
+  background: linear-gradient(135deg, #0fd6a0, #3cc7ff);
+  transform: translateY(-2px);
+  color: #041018;
+}
 
-        .batch-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
-        }
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #1f2a44, #2b3a55);
+  color: var(--app-text-strong);
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--app-border);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-bottom: 2rem;
+}
 
-        .batch-card-header {
-            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
-            color: white;
-            padding: 2rem 1.5rem;
-            border-radius: 20px 20px 0 0;
-            text-align: center;
-        }
+.back-button:hover {
+  background: linear-gradient(135deg, #2b3a55, #3a4a68);
+  transform: translateY(-2px);
+  color: var(--app-text-strong);
+}
 
-        .batch-card-body {
-            padding: 1.5rem;
-            text-align: center;
-        }
+.view {
+  display: none;
+  animation: fadeInUp 0.6s ease-out;
+}
 
-        .batch-name {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 0.5rem;
-        }
+.view.active {
+  display: block;
+}
 
-        .batch-code {
-            display: inline-block;
-            padding: 0.35rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.25);
-            color: white;
-            margin-bottom: 1rem;
-        }
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 
-        .batch-stats {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-        }
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #041018;
+  font-weight: 700;
+}
 
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
+.user-name {
+  font-weight: 600;
+  color: var(--app-text-strong);
+}
 
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #0ea5e9, #10b981);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: #64748b;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .batch-description {
-            color: #64748b;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin: 1rem 0;
-        }
-
-        .btn-custom {
-            border-radius: 12px;
-            padding: 0.75rem 2rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            border: none;
-        }
-
-        .btn-primary-custom {
-            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
-            color: white;
-        }
-
-        .btn-primary-custom:hover {
-            background: linear-gradient(135deg, #0284c7, #0891b2);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(14, 165, 233, 0.4);
-            color: white;
-        }
-
-        .btn-secondary-custom {
-            background: linear-gradient(135deg, #64748b, #475569);
-            color: white;
-        }
-
-        .btn-secondary-custom:hover {
-            background: linear-gradient(135deg, #475569, #334155);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(100, 116, 139, 0.4);
-            color: white;
-        }
-
-        .session-card {
-            animation: slideUp 0.6s ease-out;
-            border: none;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.95);
-            transition: all 0.3s ease;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .session-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .session-card-header {
-            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 16px 16px 0 0;
-        }
-
-        .session-card-body {
-            padding: 1.5rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .session-card-footer {
-            padding: 1rem 1.5rem;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-        }
-
-        .topic-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 0.5rem;
-        }
-
-        .session-meta {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-        }
-
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: #475569;
-        }
-
-        .meta-item i {
-            color: #0ea5e9;
-            font-weight: 600;
-        }
-
-        .description-text {
-            color: #64748b;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            flex-grow: 1;
-            margin: 1rem 0;
-        }
-
-        .youtube-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #ef4444;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .youtube-link:hover {
-            color: #dc2626;
-            text-decoration: underline;
-        }
-
-        .btn-watch {
-            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
-            color: white;
-            padding: 0.6rem 1.5rem;
-            border-radius: 8px;
-            border: none;
-            transition: all 0.3s ease;
-        }
-
-        .btn-watch:hover {
-            background: linear-gradient(135deg, #0284c7, #0891b2);
-            transform: translateY(-2px);
-            color: white;
-        }
-
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, #64748b, #475569);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin-bottom: 2rem;
-        }
-
-        .back-button:hover {
-            background: linear-gradient(135deg, #475569, #334155);
-            transform: translateY(-2px);
-            color: white;
-        }
-
-        .view {
-            display: none;
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        .view.active {
-            display: block;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #0ea5e9, #10b981);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-        }
-
-        .user-name {
-            font-weight: 600;
-            color: #1e293b;
-        }
-
-        @media (max-width: 768px) {
-            .header-title {
-                font-size: 1.4rem;
-            }
-
-            .btn-custom {
-                padding: 0.6rem 1.5rem;
-                font-size: 0.9rem;
-            }
-
-            .batch-card {
-                margin-bottom: 1rem;
-            }
-        }
+@media (max-width: 768px) {
+  .batch-card {
+    margin-bottom: 1rem;
+  }
+}

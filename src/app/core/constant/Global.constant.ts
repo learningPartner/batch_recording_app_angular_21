@@ -15,7 +15,8 @@ export const Controllers = {
     BATCH: 'Batches',
     ENROLLMENTS: 'BatchEnrollments', 
     SESSIONS:'BatchSessions',
-    CANDIDATES:'Candidates'
+    CANDIDATES:'Candidates',
+    DASHBOARD:'BatchDashboard/'
 }
 
 export const METHOD_NAME = {
@@ -24,8 +25,11 @@ export const METHOD_NAME = {
         GET_BY_BATCH_UD:'BYID',
         GET_ENROLLMENT_BY_CANDIDATE:'by-candidate'
     },
-    DASHBOAD: {
-        
+    DASHBOARD: {
+        GET_ADMIN_DASHBOARD:'GetAdminDashboard',
+        BATCH_CANDIDATES:'batch-candidates',
+        GET_CANDIDATE_DASHBOADD:'candidate/',
+        GET_CANDIDATE_BATCH_RECORDING_:'GetBatchWiseRecordingCount?userId='
     },
     SESSION: {
         GET_SESSION_BY_BATCH:'by-batch',
