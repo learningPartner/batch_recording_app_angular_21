@@ -1,3 +1,11 @@
 .session-card-footer {
   justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (max-width: 575.98px) {
+  .session-card-footer {
+    justify-content: center;
+  }
 }

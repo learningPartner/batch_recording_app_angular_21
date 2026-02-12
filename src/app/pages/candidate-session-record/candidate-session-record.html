@@ -3,14 +3,16 @@
     <div id="batchesView" class="view active">
         <div class="text-center mb-5">
             <h1 class="header-title">My Enrolled Batches</h1>
-            @for (item of enrollments(); track $index) {
-            <button class="btn btn-success" (click)="getSessionRecordings(item.batchId)">{{item.batchName}}</button>
-            }
+            <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+                @for (item of enrollments(); track $index) {
+                <button class="btn btn-success" (click)="getSessionRecordings(item.batchId)">{{item.batchName}}</button>
+                }
+            </div>
         </div>
 
         <div class="row g-4">
             @for (item of SessionRecordings(); track $index) {
-            <div class="col-lg-6">
+            <div class="col-12 col-md-6">
                 <div class="batch-card">
                     <div class="batch-card-header">
                         <div class="batch-name">{{item.topicName}}</div>
@@ -124,7 +126,7 @@
 
 
 <div class="modal" #videoModal>
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
 
             <!-- Modal Header -->
@@ -135,9 +137,14 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <!-- <iframe width="100%" height="400" [src]="videoUrl" frameborder="0" allowfullscreen>
-                </iframe> -->
-                <iframe width="735" height="413" [src]="videoUrl" title="Angular Project B-32 _ Store Interceptor| angular 21 Project" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <div class="ratio ratio-16x9">
+                    <iframe [src]="videoUrl"
+                        title="Angular Project B-32 _ Store Interceptor| angular 21 Project"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen></iframe>
+                </div>
             </div>
 
             <!-- Modal footer -->

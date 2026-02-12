@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+﻿import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -36,4 +36,11 @@ export class Login {
       })
     })
   }
+
+  onRegister() {
+    this.router.navigateByUrl('candidate-registration');
+  }
 }
+
+
+

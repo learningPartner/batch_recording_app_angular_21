@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterOutlet, RouterLinkWithHref, RouterLink, RouterLinkActive } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet, RouterLinkWithHref, RouterLink, RouterLinkActive } from '@angular/router';
 import { GlobalConstant } from '../../core/constant/Global.constant';
 import { BatchService } from '../../core/services/batch/batch-service';
 import { Roles } from '../../core/enum/role.enum';
 import { User } from '../../core/services/user/user';
 import { CandidateModel } from '../../core/model/classes/Candidate.Model';
 import { AsyncPipe, NgIf } from '@angular/common';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-layout',
@@ -19,9 +20,15 @@ export class Layout {
   batchSr  = inject(BatchService);
   roleEnum =  Roles;
   userSrv =  inject(User); 
+  isNavOpen = false;
 
   constructor() {  
     this.userSrv.readLoggedData();
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.isNavOpen = false;
+      });
   }
 
   onSearch(event:any) {
@@ -39,5 +46,9 @@ export class Layout {
     
     this.batchSr.roleSub.next(event.target.value);
     this.batchSr.roleBehvaiourSub.next(event.target.value);
+  }
+
+  toggleNav() {
+    this.isNavOpen = !this.isNavOpen;
   }
 }

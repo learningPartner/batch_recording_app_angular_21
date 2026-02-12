@@ -164,4 +164,19 @@
   .batch-card {
     margin-bottom: 1rem;
   }
+
+  .batch-card-header {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .back-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .batch-card-header {
+    padding: 1.25rem 1rem;
+  }
 }

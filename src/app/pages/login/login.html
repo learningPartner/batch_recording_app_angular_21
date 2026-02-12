@@ -1,4 +1,4 @@
-<div class="parent">
+﻿<div class="parent">
     <div class="login-card">
     <div class="brand-logo">Welcome</div>
     <p class="text-center text-muted mb-4">Please enter your details</p>
@@ -11,11 +11,12 @@
 
         <div class="mb-4">
             <label for="password" class="form-label small fw-bold">Password</label>
-            <input type="password" [(ngModel)]="loginObj.password" name="password" class="form-control" id="password" placeholder="••••••••" required>
+            <input type="password" [(ngModel)]="loginObj.password" name="password" class="form-control" id="password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" required>
         </div>
 
-        <div class="d-grid">
+        <div class="d-grid gap-2">
             <button type="button" (click)="onLogin()" class="btn btn-login">Sign In</button>
+            <button type="button" (click)="onRegister()" class="btn btn-outline-secondary">Register as Candidate</button>
         </div>
 
         <div class="mt-4 text-center">
@@ -24,3 +25,5 @@
     </form>
 </div>
 </div>
+
+

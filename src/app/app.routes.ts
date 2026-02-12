@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+﻿import { Routes } from '@angular/router';
 import { Login } from './pages/login/login';
 import { Layout } from './pages/layout/layout';
 import { BatchMaster } from './pages/batch-master/batch-master';
@@ -9,6 +9,7 @@ import { Enrollment } from './pages/enrollment/enrollment';
 import { SessionRecordings } from './pages/session-recordings/session-recordings';
 import { CandidateDashboard } from './pages/candidate-dashboard/candidate-dashboard';
 import { CandidateSessionRecord } from './pages/candidate-session-record/candidate-session-record';
+import { CandidateRegistration } from './pages/candidate-registration/candidate-registration';
 
 export const routes: Routes = [
     {
@@ -19,6 +20,10 @@ export const routes: Routes = [
     {
         path:'login',
         component:Login
+    },
+    {
+        path:'candidate-registration',
+        component: CandidateRegistration
     },
     {
         path:'',
@@ -57,3 +62,6 @@ export const routes: Routes = [
     }
 
 ];
+
+
+

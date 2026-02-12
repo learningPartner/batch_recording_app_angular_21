@@ -4,11 +4,11 @@
       <span class="brand-dot" aria-hidden="true"></span>
       <span class="brand-text">Logo</span>
     </a>
-    <button class="navbar-toggler nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar"
-      aria-label="Toggle navigation">
+    <button class="navbar-toggler nav-toggle" type="button" [class.collapsed]="!isNavOpen"
+      [attr.aria-expanded]="isNavOpen" aria-label="Toggle navigation" (click)="toggleNav()">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="mynavbar">
+    <div class="collapse navbar-collapse" id="mynavbar" [class.show]="isNavOpen">
       <ul class="navbar-nav me-auto nav-links">
         <ng-container *ngIf="userSrv.loggedUserData$ | async as userDetail">
          
@@ -30,7 +30,7 @@
           </li>
           } @else {
           <li class="nav-item">
-            <a class="nav-link active nav-ink" routerLink="candidate-dashboard">Dashboard</a>
+            <a class="nav-link active nav-ink" routerLink="dashboard">Dashboard</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active nav-ink" routerLink="candidate-recordings">Recordings</a>

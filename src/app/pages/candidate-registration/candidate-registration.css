@@ -1,4 +1,4 @@
-.parent {
+﻿.parent {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -6,7 +6,7 @@
   padding: 2.5rem 1rem;
 }
 
-.login-card {
+.register-card {
   background: var(--app-surface);
   backdrop-filter: blur(14px);
   border-radius: var(--radius-xl);
@@ -14,11 +14,11 @@
   padding: 2.5rem;
   box-shadow: var(--shadow-lg);
   width: 100%;
-  max-width: 420px;
+  max-width: 460px;
   animation: fadeInUp 0.8s ease-out;
 }
 
-.btn-login {
+.btn-register {
   background: var(--accent-gradient);
   border: none;
   border-radius: 12px;
@@ -28,18 +28,18 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.btn-login:hover {
+.btn-register:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 22px rgba(22, 242, 179, 0.3);
   color: #041018;
 }
 
-.btn-login:active {
+.btn-register:active {
   transform: translateY(0);
 }
 
 .brand-logo {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
   background: var(--accent-gradient);
   -webkit-background-clip: text;
@@ -50,7 +50,7 @@
 }
 
 @media (max-width: 576px) {
-  .login-card {
+  .register-card {
     padding: 2rem 1.5rem;
   }
 }
