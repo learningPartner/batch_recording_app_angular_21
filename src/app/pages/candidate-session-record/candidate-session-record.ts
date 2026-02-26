@@ -38,6 +38,7 @@ export class CandidateSessionRecord implements OnInit, OnDestroy {
   private player: any | null = null;
   private isPlayerReady = false;
   private readonly videoIdRegex = /^[a-zA-Z0-9_-]{11}$/;
+  selectedBatchId = signal<number>(0)
 
   constructor() {
     this.userSrv.loggedUserData$.subscribe((res: CandidateModel) => {
@@ -126,11 +127,16 @@ export class CandidateSessionRecord implements OnInit, OnDestroy {
     this.enrollSrv.getEnrolledBatcheByCandidateId(id).subscribe({
       next: (res: any) => {
         this.enrollments.set(res.data);
+        debugger;
+        if(this.enrollments().length != 0) {
+          this.getSessionRecordings(this.enrollments()[0].batchId)
+        }
       },
     });
   }
 
   getSessionRecordings(bId: number) {
+    this.selectedBatchId.set(bId);
     this.batchSrv.getAllSessionRecordingByBatchId(bId).subscribe({
       next: (res: any) => {
         this.SessionRecordings.set(res.data);

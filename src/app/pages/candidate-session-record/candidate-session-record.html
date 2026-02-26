@@ -11,7 +11,8 @@
             <h1 class="header-title">My Enrolled Batches</h1>
             <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
                 @for (item of enrollments(); track $index) {
-                <button class="btn btn-success" (click)="getSessionRecordings(item.batchId)">{{item.batchName}}</button>
+                    
+                <button [class]="selectedBatchId() == item.batchId ? 'btn btn-success':'btn btn-warning' " (click)="getSessionRecordings(item.batchId)">{{item.batchName}}</button>
                 }
             </div>
         </div>
