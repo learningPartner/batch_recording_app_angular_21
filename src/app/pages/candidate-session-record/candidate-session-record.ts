@@ -1,11 +1,17 @@
-import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
-import { GlobalConstant } from '../../core/constant/Global.constant';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, inject, signal, ViewChild } from '@angular/core';
 import { EnrollentService } from '../../core/services/enrollment/enrollent-service';
-import { BatchService } from '../../core/services/batch/batch-service';
 import { RecordingService } from '../../core/services/recording/recording-service';
 import { User } from '../../core/services/user/user';
 import { CandidateModel } from '../../core/model/classes/Candidate.Model';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
+declare global {
+  interface Window {
+    YT: any;
+    onYouTubeIframeAPIReady?: () => void;
+    __ytApiReadyPromise?: Promise<void>;
+    __ytApiReadyResolver?: () => void;
+  }
+}
 
 @Component({
   selector: 'app-candidate-session-record',
@@ -13,61 +19,321 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './candidate-session-record.html',
   styleUrl: './candidate-session-record.css',
 })
-export class CandidateSessionRecord implements OnInit{
+export class CandidateSessionRecord implements OnInit, OnDestroy {
 
-  
   enrollSrv = inject(EnrollentService);
-  batchSrv =  inject(RecordingService);
-  userSrv =  inject(User);
-  enrollments = signal< any[]>([])
-  SessionRecordings = signal< any[]>([])
-  @ViewChild('videoModal') videoModalRef! : ElementRef;
-  videoUrl!: SafeResourceUrl;
+  batchSrv = inject(RecordingService);
+  userSrv = inject(User);
+  enrollments = signal<any[]>([]);
+  SessionRecordings = signal<any[]>([]);
+  securityWarning = signal<string>('');
+  watermarkText = signal<string>('');
+  isModalOpen = signal(false);
+  isPlaying = signal(false);
+  isMuted = signal(false);
+  @ViewChild('videoModal') videoModalRef!: ElementRef;
+  private devToolsDetectorId: ReturnType<typeof setInterval> | null = null;
+  private watermarkTickerId: ReturnType<typeof setInterval> | null = null;
+  private devToolsHitCount = 0;
+  private player: any | null = null;
+  private isPlayerReady = false;
+  private readonly videoIdRegex = /^[a-zA-Z0-9_-]{11}$/;
 
-  constructor(private sanitizer: DomSanitizer) {
-    this.userSrv.loggedUserData$.subscribe((res:CandidateModel)=>{
-      this.getBatchesByCandiate(res.candidateId)
-    })
+  constructor() {
+    this.userSrv.loggedUserData$.subscribe((res: CandidateModel) => {
+      if (res?.candidateId) {
+        this.getBatchesByCandiate(res.candidateId);
+      }
+    });
   }
 
   ngOnInit(): void {
-    
+    this.startDevToolsMonitoring();
   }
 
-  openModal(url: string) {
-    if(this.videoModalRef) {
-      this.videoModalRef.nativeElement.style.display = 'block';
- 
-    const videoId = this.getVideoId(url);
-    this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      `https://www.youtube.com/embed/${videoId}`
-    );
+  ngOnDestroy(): void {
+    if (this.devToolsDetectorId) {
+      clearInterval(this.devToolsDetectorId);
+    }
+
+    if (this.watermarkTickerId) {
+      clearInterval(this.watermarkTickerId);
     }
   }
-  getVideoId(url: string): string {
-    return url.split('youtu.be/')[1].split('?')[0];
+
+  openModal(source: string) {
+    const videoId = this.getVideoId(source);
+    if (!videoId) {
+      this.raiseSecurityWarning('Invalid video source. Please contact support.');
+      return;
+    }
+
+    if (this.videoModalRef) {
+      this.videoModalRef.nativeElement.style.display = 'block';
+      this.isModalOpen.set(true);
+      this.initYouTubePlayer(videoId);
+      this.startWatermarkTicker();
+    }
   }
+
+  getVideoId(source: string): string | null {
+    if (!source) {
+      return null;
+    }
+
+    const input = source.trim();
+    if (this.videoIdRegex.test(input)) {
+      return input;
+    }
+
+    const fromPattern = input.match(/(?:v=|\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    if (fromPattern?.[1]) {
+      return fromPattern[1];
+    }
+
+    try {
+      const parsed = new URL(input);
+      if (parsed.hostname.includes('youtu.be')) {
+        const id = parsed.pathname.replace('/', '').slice(0, 11);
+        return this.videoIdRegex.test(id) ? id : null;
+      }
+
+      const v = parsed.searchParams.get('v');
+      if (v && this.videoIdRegex.test(v)) {
+        return v;
+      }
+    } catch {
+      return null;
+    }
+
+    return null;
+  }
+
   closeModal() {
-     this.videoUrl =  "";
-    if(this.videoModalRef) {
-      this.videoModalRef.nativeElement.style.display = 'none'
+    this.isModalOpen.set(false);
+    this.isPlaying.set(false);
+    this.pausePlayer();
+    if (this.videoModalRef) {
+      this.videoModalRef.nativeElement.style.display = 'none';
+    }
+    if (this.watermarkTickerId) {
+      clearInterval(this.watermarkTickerId);
+      this.watermarkTickerId = null;
     }
   }
 
   getBatchesByCandiate(id: number) {
     this.enrollSrv.getEnrolledBatcheByCandidateId(id).subscribe({
-      next:(res:any)=>{
+      next: (res: any) => {
         this.enrollments.set(res.data);
-      }
-    })
+      },
+    });
   }
 
   getSessionRecordings(bId: number) {
     this.batchSrv.getAllSessionRecordingByBatchId(bId).subscribe({
-      next:(res:any)=>{
-        this.SessionRecordings.set (res.data);
-      }
-    })
+      next: (res: any) => {
+        this.SessionRecordings.set(res.data);
+      },
+    });
   }
 
+  blockContextMenu(event: MouseEvent) {
+    if (this.isModalOpen()) {
+      event.preventDefault();
+      this.raiseSecurityWarning('Right-click is disabled while video is playing.');
+    }
+  }
+
+  @HostListener('document:contextmenu', ['$event'])
+  onGlobalContextMenu(event: MouseEvent) {
+    this.blockContextMenu(event);
+  }
+
+  @HostListener('document:copy', ['$event'])
+  onCopy(event: ClipboardEvent) {
+    if (this.isModalOpen()) {
+      event.preventDefault();
+      this.raiseSecurityWarning('Copy action is disabled while video is playing.');
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydown(event: KeyboardEvent) {
+    if (!this.isModalOpen()) {
+      return;
+    }
+
+    const key = event.key.toLowerCase();
+    const isBlockedShortcut =
+      event.key === 'F12' ||
+      (event.ctrlKey && event.shiftKey && ['i', 'j', 'c', 'k'].includes(key)) ||
+      (event.ctrlKey && ['u', 's', 'p'].includes(key));
+
+    if (isBlockedShortcut) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.raiseSecurityWarning('Restricted action detected. Video closed for safety.');
+      this.closeModal();
+    }
+  }
+
+  togglePlayback() {
+    if (!this.isPlayerReady || !this.player) {
+      this.raiseSecurityWarning('Player is not ready yet. Try again in a moment.');
+      return;
+    }
+
+    if (this.isPlaying()) {
+      this.pausePlayer();
+      return;
+    }
+
+    this.player.playVideo();
+    this.isPlaying.set(true);
+  }
+
+  toggleMute() {
+    if (!this.isPlayerReady || !this.player) {
+      return;
+    }
+
+    if (this.player.isMuted()) {
+      this.player.unMute();
+      this.isMuted.set(false);
+      return;
+    }
+
+    this.player.mute();
+    this.isMuted.set(true);
+  }
+
+  seekBy(seconds: number) {
+    if (!this.isPlayerReady || !this.player) {
+      return;
+    }
+
+    const current = Number(this.player.getCurrentTime?.() ?? 0);
+    const target = Math.max(0, current + seconds);
+    this.player.seekTo(target, true);
+  }
+
+  private startDevToolsMonitoring() {
+    this.devToolsDetectorId = setInterval(() => {
+      const widthGap = window.outerWidth - window.innerWidth;
+      const heightGap = window.outerHeight - window.innerHeight;
+      const mayBeOpen = widthGap > 160 || heightGap > 160;
+
+      if (!mayBeOpen) {
+        this.devToolsHitCount = 0;
+        return;
+      }
+
+      this.devToolsHitCount++;
+      if (this.devToolsHitCount >= 2 && this.isModalOpen()) {
+        this.raiseSecurityWarning('Developer tools detected. Video playback was stopped.');
+        this.closeModal();
+      }
+    }, 1000);
+  }
+
+  private startWatermarkTicker() {
+    this.refreshWatermark();
+    if (this.watermarkTickerId) {
+      clearInterval(this.watermarkTickerId);
+    }
+
+    this.watermarkTickerId = setInterval(() => {
+      this.refreshWatermark();
+    }, 15000);
+  }
+
+  private refreshWatermark() {
+    const user = this.userSrv.loggedUserData$.value;
+    const identity = user.fullName || user.email || `Candidate-${user.candidateId}`;
+    const time = new Date().toLocaleString();
+    this.watermarkText.set(`${identity} | ${time}`);
+  }
+
+  private raiseSecurityWarning(message: string) {
+    this.securityWarning.set(message);
+    setTimeout(() => {
+      if (this.securityWarning() === message) {
+        this.securityWarning.set('');
+      }
+    }, 3500);
+  }
+
+  private async initYouTubePlayer(videoId: string) {
+    await this.ensureYouTubeApiReady();
+
+    if (this.player && this.isPlayerReady) {
+      this.player.cueVideoById(videoId);
+      this.isPlaying.set(false);
+      return;
+    }
+
+    this.isPlayerReady = false;
+    this.player = new window.YT.Player('yt-player', {
+      host: 'https://www.youtube-nocookie.com',
+      videoId,
+      playerVars: {
+        rel: 0,
+        modestbranding: 1,
+        iv_load_policy: 3,
+        disablekb: 1,
+        fs: 0,
+        playsinline: 1,
+        controls: 0,
+        origin: window.location.origin,
+      },
+      events: {
+        onReady: () => {
+          this.isPlayerReady = true;
+          this.isMuted.set(!!this.player?.isMuted?.());
+          this.isPlaying.set(false);
+          this.player.cueVideoById(videoId);
+        },
+        onStateChange: (event: any) => {
+          const playerState = event?.data;
+          const ytState = window.YT?.PlayerState;
+          this.isPlaying.set(playerState === ytState?.PLAYING);
+        },
+      },
+    });
+  }
+
+  private pausePlayer() {
+    if (!this.player || !this.isPlayerReady) {
+      return;
+    }
+    this.player.pauseVideo();
+    this.isPlaying.set(false);
+  }
+
+  private async ensureYouTubeApiReady() {
+    if (window.YT?.Player) {
+      return;
+    }
+
+    if (!window.__ytApiReadyPromise) {
+      window.__ytApiReadyPromise = new Promise<void>((resolve) => {
+        window.__ytApiReadyResolver = resolve;
+      });
+
+      window.onYouTubeIframeAPIReady = () => {
+        window.__ytApiReadyResolver?.();
+      };
+
+      const existingScript = document.getElementById('youtube-iframe-api');
+      if (!existingScript) {
+        const script = document.createElement('script');
+        script.id = 'youtube-iframe-api';
+        script.src = 'https://www.youtube.com/iframe_api';
+        document.body.appendChild(script);
+      }
+    }
+
+    await window.__ytApiReadyPromise;
+  }
 }

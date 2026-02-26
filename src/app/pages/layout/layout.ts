@@ -39,6 +39,7 @@ export class Layout {
 
   onLogOff() {
     localStorage.removeItem(GlobalConstant.LOCAL_KEY_LOGIN);
+    localStorage.removeItem('batchToken');
     this.router.navigate(['login']) 
   }
 

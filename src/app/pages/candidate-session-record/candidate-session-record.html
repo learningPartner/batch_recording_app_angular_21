@@ -1,4 +1,10 @@
 <div class="container py-5 main-container">
+    @if (securityWarning()) {
+    <div class="alert alert-warning security-warning-banner" role="alert">
+        <i class="fas fa-shield-alt me-2"></i>{{securityWarning()}}
+    </div>
+    }
+
     <!-- Batches View -->
     <div id="batchesView" class="view active">
         <div class="text-center mb-5">
@@ -126,7 +132,7 @@
 
 
 <div class="modal" #videoModal>
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered video-modal-dialog">
         <div class="modal-content">
 
             <!-- Modal Header -->
@@ -137,19 +143,28 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-                <div class="ratio ratio-16x9">
-                    <iframe [src]="videoUrl"
-                        title="Angular Project B-32 _ Store Interceptor| angular 21 Project"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin"
-                        allowfullscreen></iframe>
+                <div class="video-shell" (contextmenu)="blockContextMenu($event)">
+                    <div class="ratio ratio-16x9">
+                        <div id="yt-player" class="yt-player-host"></div>
+                        <div class="video-shield" (click)="togglePlayback()" (contextmenu)="blockContextMenu($event)"></div>
+                    </div>
+                    <div class="video-watermark" aria-hidden="true">{{watermarkText()}}</div>
+                </div>
+                <div class="custom-player-controls">
+                    <button type="button" class="btn btn-sm btn-primary" (click)="togglePlayback()">
+                        {{isPlaying() ? 'Pause' : 'Play'}}
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-light" (click)="seekBy(-10)">-10s</button>
+                    <button type="button" class="btn btn-sm btn-outline-light" (click)="seekBy(10)">+10s</button>
+                    <button type="button" class="btn btn-sm btn-outline-warning" (click)="toggleMute()">
+                        {{isMuted() ? 'Unmute' : 'Mute'}}
+                    </button>
                 </div>
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
             </div>
 
         </div>
