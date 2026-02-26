@@ -1,9 +1,10 @@
 ﻿import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CandidateService } from '../../core/services/candidate/candidate-service';
+import { CandidateEnrollmentRequest, CandidateService } from '../../core/services/candidate/candidate-service';
 import { IAPIRepsone } from '../../core/model/interfaces/Common.Model';
-import { CandidateModel } from '../../core/model/classes/Candidate.Model';
+import { BatchService } from '../../core/services/batch/batch-service';
+import { BatchModel } from '../../core/model/classes/Batch.Model';
 
 @Component({
   selector: 'app-candidate-registration',
@@ -13,6 +14,7 @@ import { CandidateModel } from '../../core/model/classes/Candidate.Model';
 })
 export class CandidateRegistration {
   candidateForm: FormGroup = new FormGroup({
+    batchId: new FormControl(0, [Validators.required, Validators.min(1)]),
     fullName: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
     mobileNumber: new FormControl('', Validators.required),
@@ -20,8 +22,29 @@ export class CandidateRegistration {
   });
 
   isSubmitting = signal<boolean>(false);
+  isBatchLoading = signal<boolean>(false);
+  batchList = signal<BatchModel[]>([]);
   candidateSer = inject(CandidateService);
+  batchSrv = inject(BatchService);
   router = inject(Router);
+
+  constructor() {
+    this.getAllBatches();
+  }
+
+  getAllBatches() {
+    this.isBatchLoading.set(true);
+    this.batchSrv.getAllBatches().subscribe({
+      next: (res: IAPIRepsone) => {
+        this.isBatchLoading.set(false);
+        this.batchList.set((res.data ?? []) as BatchModel[]);
+      },
+      error: () => {
+        this.isBatchLoading.set(false);
+        this.batchList.set([]);
+      },
+    });
+  }
 
   onRegister() {
     if (this.candidateForm.invalid) {
@@ -29,23 +52,29 @@ export class CandidateRegistration {
       return;
     }
 
-    const formValue = this.candidateForm.value;
+    const formValue = this.candidateForm.getRawValue();
     const now = new Date().toISOString();
 
-    const payload: CandidateModel = {
-      candidateId: 0,
-      fullName: formValue.fullName ?? '',
-      email: formValue.email ?? '',
-      mobileNumber: formValue.mobileNumber ?? '',
-      password: formValue.password ?? '',
-      role: 'Candidate',
+    const payload: CandidateEnrollmentRequest = {
+      batchId: Number(formValue.batchId) || 0,
+      candidate: {
+        candidateId: 0,
+        fullName: formValue.fullName ?? '',
+        email: formValue.email ?? '',
+        mobileNumber: formValue.mobileNumber ?? '',
+        password: formValue.password ?? '',
+        role: 'Candidate',
+        isActive: true,
+        createdAt: now,
+        updatedAt: now,
+      },
+      enrollmentDate: now,
       isActive: true,
-      createdAt: now,
-      updatedAt: now,
+      totalFees: 0,
     };
 
     this.isSubmitting.set(true);
-    this.candidateSer.createNewCandidate(payload).subscribe({
+    this.candidateSer.createcandidateandenroll(payload).subscribe({
       next: (res: IAPIRepsone) => {
         this.isSubmitting.set(false);
         if (res.result) {

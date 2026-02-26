@@ -1,0 +1,130 @@
+<div class="container-fluid py-5 main-container">
+    <div class="row g-4">
+        <div class="col-12 col-sm-12 col-md-4 col-lg-3">
+            <div class="card form-card">
+                <div class="card-body p-4">
+                    <div class="section-header">
+                        <i class="fas fa-money-check-dollar"></i>
+                        <h4>Manage Payment</h4>
+                    </div>
+
+                    <form [formGroup]="paymentForm">
+                        <div class="mb-3">
+                            <label class="form-label" for="enrollId">
+                                <i class="fas fa-id-card me-2"></i>Enrollment
+                            </label>
+                            <select class="form-select" formControlName="enrollId" id="enrollId"
+                                (change)="onEnrollmentChange()">
+                                <option [value]="0">Select enrollment</option>
+                                @for (item of enrollmentList(); track item.enrollmentId) {
+                                <option [value]="item.enrollmentId">{{item.enrollmentNo}} - {{item.fullName}}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="paymentDate">
+                                <i class="fas fa-calendar-days me-2"></i>Payment Date
+                            </label>
+                            <input type="date" formControlName="paymentDate" class="form-control" id="paymentDate">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="amount">
+                                <i class="fas fa-indian-rupee-sign me-2"></i>Amount
+                            </label>
+                            <input type="number" formControlName="amount" class="form-control" id="amount"
+                                min="0" step="0.01" placeholder="Enter payment amount">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="naration">
+                                <i class="fas fa-align-left me-2"></i>Narration
+                            </label>
+                            <textarea rows="3" formControlName="naration" class="form-control" id="naration"
+                                placeholder="Enter narration"></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-custom btn-success-custom" (click)="onSavePayment()">
+                                @if (paymentForm.controls['paymentId'].value == 0) {
+                                <span><i class="fas fa-save me-2"></i>Create Payment</span>
+                                } @else {
+                                <span><i class="fas fa-pen-to-square me-2"></i>Update Payment</span>
+                                }
+                            </button>
+                            <button type="button" class="btn btn-custom btn-secondary-custom" (click)="resetForm()">
+                                <i class="fas fa-redo me-2"></i>Reset Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-8 col-lg-9">
+            <div class="card table-card">
+                <div class="card-body p-4">
+                    <div class="section-header">
+                        <i class="fas fa-list"></i>
+                        <h4>Payments List</h4>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            @if (isLoading()) {
+                            <tr>
+                                <td colspan="6" class="text-center py-5">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            } @else {
+                            @if (paymentList().length === 0) {
+                            <tr>
+                                <td colspan="6" class="text-center py-5">
+                                    No payment records found.
+                                </td>
+                            </tr>
+                            } @else {
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Batch Name</th>
+                                    <th>Candidate</th>
+                                    <th>Payment Date</th>
+                                    <th>Amount</th>
+                                    <th>Narration</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (item of paymentList(); track item.paymentId) {
+                                <tr>
+                                    <td><strong>{{$index + 1}}</strong></td>
+                                     <td>{{item.batchName || '-'}}</td>
+                                      <td>{{item.candidateName || '-'}}</td> 
+                                    <td>{{item.paymentDate | date : 'dd-MM-yyyy'}}</td>
+                                    <td>{{item.amount | number : '1.2-2'}}</td>
+                                    <td>{{item.naration || '-'}}</td>
+                                    <td>
+                                        <button class="action-btn btn-warning-custom" (click)="onEdit(item)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="action-btn btn-danger-custom" (click)="onDelete(item.paymentId)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                            }
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -81,6 +81,8 @@
 .nav-links .nav-item:nth-child(4) { animation-delay: 240ms; }
 .nav-links .nav-item:nth-child(5) { animation-delay: 300ms; }
 .nav-links .nav-item:nth-child(6) { animation-delay: 360ms; }
+.nav-links .nav-item:nth-child(7) { animation-delay: 420ms; }
+.nav-links .nav-item:nth-child(8) { animation-delay: 480ms; }
 
 .nav-links .nav-link {
   color: var(--nav-muted);

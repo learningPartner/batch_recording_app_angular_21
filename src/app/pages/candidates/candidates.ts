@@ -84,7 +84,7 @@ export class Candidates implements OnInit {
    * @param form 
    */
   onEdit(form: CandidateModel) {
-    this.candidateForm.setValue(form)
+    this.candidateForm.patchValue(form)
   }
 
   /**

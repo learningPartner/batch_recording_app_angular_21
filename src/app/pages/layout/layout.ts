@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet, RouterLinkWithHref, RouterLink, RouterLinkActive } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet, RouterLinkWithHref, RouterLink } from '@angular/router';
 import { GlobalConstant } from '../../core/constant/Global.constant';
 import { BatchService } from '../../core/services/batch/batch-service';
 import { Roles } from '../../core/enum/role.enum';
@@ -10,7 +10,7 @@ import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterOutlet, RouterLink,AsyncPipe,NgIf,RouterLinkActive], 
+  imports: [RouterOutlet, RouterLink,AsyncPipe,NgIf], 
   templateUrl: './layout.html',
   styleUrl: './layout.css',
 })

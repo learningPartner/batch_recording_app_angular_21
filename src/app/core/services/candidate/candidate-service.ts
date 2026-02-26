@@ -4,7 +4,25 @@ import { IAPIRepsone } from '../../model/interfaces/Common.Model';
 import { CandidateModel } from '../../model/classes/Candidate.Model';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { ApiMethodConstant } from '../../constant/Global.constant';
+import { ApiMethodConstant, Controllers, METHOD_NAME } from '../../constant/Global.constant';
+
+export interface CandidateEnrollmentRequest {
+  batchId: number;
+  candidate: {
+    candidateId: number;
+    fullName: string;
+    email: string;
+    mobileNumber: string;
+    password: string;
+    role: string;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+  };
+  enrollmentDate: string;
+  isActive: boolean;
+  totalFees: number;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +34,11 @@ export class CandidateService {
   createNewCandidate(obj: CandidateModel): Observable<IAPIRepsone> {
     return this.http.post<IAPIRepsone>(environment.API_URL + ApiMethodConstant.CANDIDATES, obj)
   }
+
+  createcandidateandenroll(obj: CandidateEnrollmentRequest): Observable<IAPIRepsone> {
+    return this.http.post<IAPIRepsone>(environment.API_URL + Controllers.ENROLLMENTS + METHOD_NAME.ENROLMENT.CREATE_CANDIDATE_ENROLLMENT, obj)
+  }
+  
 
   getAllCandidates(): Observable<IAPIRepsone> {
     return this.http.get<IAPIRepsone>(environment.API_URL + ApiMethodConstant.CANDIDATES);

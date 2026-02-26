@@ -10,6 +10,8 @@ import { SessionRecordings } from './pages/session-recordings/session-recordings
 import { CandidateDashboard } from './pages/candidate-dashboard/candidate-dashboard';
 import { CandidateSessionRecord } from './pages/candidate-session-record/candidate-session-record';
 import { CandidateRegistration } from './pages/candidate-registration/candidate-registration';
+import { Payment } from './pages/payment/payment';
+import { PaymentReport } from './pages/payment-report/payment-report';
 
 export const routes: Routes = [
     {
@@ -41,9 +43,17 @@ export const routes: Routes = [
                 path:'enrollment',
                 component: Enrollment
             },
-             {
+            {
                 path:'session-recordings',
                 component: SessionRecordings
+            },
+            {
+                path:'payment',
+                component: Payment
+            },
+            {
+                path:'payment-report',
+                component: PaymentReport
             },
             {
                 path:'candidate-dashboard',

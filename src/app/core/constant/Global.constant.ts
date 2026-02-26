@@ -8,22 +8,26 @@ export const ApiMethodConstant = {
     ENROLLMENTS: 'BatchEnrollments',
     GET_ALL_ENROLLMENT:'BatchEnrollments/GetAllEnrollment',
     SESSIONS:'BatchSessions',
-    CANDIDATES:'Candidates'
+    CANDIDATES:'Candidates',
+    PAYMENT: 'BatchPayment'
 }
 
 export const Controllers = {
     BATCH: 'Batches',
-    ENROLLMENTS: 'BatchEnrollments', 
+    ENROLLMENTS: 'BatchEnrollments/', 
     SESSIONS:'BatchSessions',
     CANDIDATES:'Candidates',
-    DASHBOARD:'BatchDashboard/'
+    DASHBOARD:'BatchDashboard/',
+    PAYMENT: 'BatchPayment/'
 }
 
 export const METHOD_NAME = {
     ENROLMENT: {
         GET_ALL_ENROLLMENT:'GetAllEnrollment',
         GET_BY_BATCH_UD:'BYID',
-        GET_ENROLLMENT_BY_CANDIDATE:'by-candidate'
+        GET_ENROLLMENT_BY_CANDIDATE:'by-candidate',
+        CREATE_CANDIDATE_ENROLLMENT: 'create-candidate-and-enroll'
+    
     },
     DASHBOARD: {
         GET_ADMIN_DASHBOARD:'GetAdminDashboard',
@@ -34,7 +38,11 @@ export const METHOD_NAME = {
     SESSION: {
         GET_SESSION_BY_BATCH:'by-batch',
         GET_ALL_RECORDING: 'GetAllSessionsRecordings'
+    },
+    PAYMENT: {
+        GET_PAYMENT_SUMMARY:'getEnrollmentPaymentSummary'
     }
+    
 }
 
 

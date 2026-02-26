@@ -5,6 +5,16 @@
 
     <form [formGroup]="candidateForm" (ngSubmit)="onRegister()">
       <div class="mb-3">
+        <label for="batchId" class="form-label small fw-bold">Batch</label>
+        <select id="batchId" formControlName="batchId" class="form-select">
+          <option [value]="0">Select batch</option>
+          @for (item of batchList(); track item.batchId) {
+          <option [value]="item.batchId">{{item.batchName}}</option>
+          }
+        </select>
+      </div>
+
+      <div class="mb-3">
         <label for="fullName" class="form-label small fw-bold">Full Name</label>
         <input
           type="text"
@@ -53,7 +63,7 @@
       </div>
 
       <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-register" [disabled]="isSubmitting()">
+        <button type="submit" class="btn btn-register" [disabled]="isSubmitting() || isBatchLoading()">
           Register
         </button>
         <button type="button" class="btn btn-outline-secondary" (click)="goToLogin()">

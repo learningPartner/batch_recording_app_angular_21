@@ -1,5 +1,6 @@
 export class CandidateModel {
   candidateId: number;
+  batchId: number;
   fullName: string;
   email: string;
   mobileNumber: string;
@@ -11,6 +12,7 @@ export class CandidateModel {
 
   constructor() {
     this.candidateId = 0;
+    this.batchId = 0;
     this.fullName = "";
     this.email = "";
     this.mobileNumber = "";

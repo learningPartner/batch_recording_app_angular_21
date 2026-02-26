@@ -1,0 +1,144 @@
+<div class="container-fluid py-5 main-container">
+    <div class="row g-4">
+        <div class="col-12">
+            <!-- <div class="row g-3 mb-4">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card summary-card">
+                        <div class="card-body">
+                            <div class="summary-label">Total Payments</div>
+                            <div class="summary-value">{{summary().totalPayments}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card summary-card">
+                        <div class="card-body">
+                            <div class="summary-label">Total Amount</div>
+                            <div class="summary-value">{{summary().totalAmount | number : '1.2-2'}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card summary-card">
+                        <div class="card-body">
+                            <div class="summary-label">Average Amount</div>
+                            <div class="summary-value">{{summary().averageAmount | number : '1.2-2'}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card summary-card">
+                        <div class="card-body">
+                            <div class="summary-label">Latest Payment</div>
+                            <div class="summary-value latest-date">
+                                {{summary().latestPaymentDate ? (summary().latestPaymentDate | date : 'dd-MM-yyyy') :
+                                '-'}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="card table-card">
+                <div class="card-body p-4">
+                    <div class="section-header">
+                        <i class="fas fa-chart-column"></i>
+                        <h4>Payment Report</h4>
+                    </div>
+
+                    <form [formGroup]="filterForm" class="report-filter-row">
+                        <div class="row g-3 align-items-end">
+                            <div class="col-12 col-md-4">
+                                <label class="form-label" for="candidateId">
+                                    <i class="fas fa-user me-2"></i>Candidate
+                                </label>
+                                <select class="form-select" id="candidateId" formControlName="candidateId">
+                                    <option [value]="0">All candidates</option>
+                                    @for (item of candidateList(); track item.candidateId) {
+                                    <option [value]="item.candidateId">{{item.fullName}}</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <label class="form-label" for="batchId">
+                                    <i class="fas fa-layer-group me-2"></i>Batch
+                                </label>
+                                <select class="form-select" id="batchId" formControlName="batchId">
+                                    <option [value]="0">All batches</option>
+                                    @for (item of batchList(); track item.batchId) {
+                                    <option [value]="item.batchId">{{item.batchName}}</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <div class="filter-actions">
+                                    <button type="button" class="btn btn-custom btn-success-custom"
+                                        (click)="onSearchFilters()">
+                                        <i class="fas fa-magnifying-glass me-2"></i>Search
+                                    </button>
+                                    <button type="button" class="btn btn-custom btn-secondary-custom"
+                                        (click)="onResetFilters()">
+                                        <i class="fas fa-eraser me-2"></i>Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            @if (isLoading()) {
+                            <tr>
+                                <td colspan="9" class="text-center py-5">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            } @else {
+                            @if (paymentList().length === 0) {
+                            <tr>
+                                <td colspan="9" class="text-center py-5">
+                                    No payment report records found.
+                                </td>
+                            </tr>
+                            } @else {
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Candidate Name</th>
+                                    <th>Batch Name</th>
+                                    <th>EMI 1</th>
+                                    <th>EMI 2</th>
+                                    <th>EMI 3</th>
+                                    <th>EMI 4</th>
+                                    <th>Total Fees</th>
+                                    <th>Remaining Fees</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (item of paymentList(); track $index) {
+                                <tr>
+                                    <td><strong>{{$index + 1}}</strong></td>
+                                    <td>{{item.candidateName || '-'}}</td>
+                                    <td>{{item.batchName || '-'}}</td>
+                                    <td>{{item.installment1 | number : '1.2-2'}}</td>
+                                    <td>{{item.installment2 | number : '1.2-2'}}</td>
+                                    <td>{{item.installment3 | number : '1.2-2'}}</td>
+                                    <td>{{item.installment4 | number : '1.2-2'}}</td>
+                                    <td>{{item.totalFees}}</td>
+                                    <td>{{item.remainingFees}}</td>
+                                </tr>
+                                }
+                            </tbody>
+                            }
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
